@@ -2,7 +2,7 @@
 
 <div id="navigation">
     <ul>
-        <li><a href="<%=request.getContextPath() %>/main">안대혁</a></li>
+        <li><a href="<%=request.getContextPath() %>/main">김종하</a></li>
         <li><a href="<%=request.getContextPath() %>/guestbook">방명록</a></li>
         <li><a href="<%=request.getContextPath() %>/board">게시판</a></li>
     </ul>
