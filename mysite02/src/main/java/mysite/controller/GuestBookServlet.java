@@ -30,7 +30,7 @@ public class GuestBookServlet extends HttpServlet {
             response.sendRedirect(request.getContextPath() + "/guestbook");
         } else if ("deleteform".equals(action)) {
             // TODO: redirect to deleteform
-        } else if ("deleteform".equals(action)) {
+        } else if ("delete".equals(action)) {
             // TODO: delete and redirect
         } else {
             List<GuestBookVo> list = dao.findAll();
