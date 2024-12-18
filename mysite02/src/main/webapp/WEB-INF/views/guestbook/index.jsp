@@ -1,4 +1,10 @@
+<%@ page import="mysite.vo.GuestBookVo" %>
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+
+<%
+	List<GuestBookVo> list = (List<GuestBookVo>)request.getAttribute("list");
+%>
 
 <!DOCTYPE html>
 <html>
@@ -12,7 +18,7 @@
 		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
 		<div id="content">
 			<div id="guestbook">
-				<form action="/guestbook" method="post">
+				<form action="<%=request.getContextPath() %>/guestbook" method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
@@ -28,22 +34,7 @@
 					</table>
 				</form>
 				<ul>
-					<li>
-						<table>
-							<tr>
-								<td>[4]</td>
-								<td>안대혁</td>
-								<td>2015-11-10 11:22:30</td>
-								<td><a href="">삭제</a></td>
-							</tr>
-							<tr>
-								<td colspan=4>
-								안녕하세요. ^^;<br>
-								하하하하	
-								</td>
-							</tr>
-						</table>
-						<br>
+					<li id="guestbook-list">
 					</li>
 				</ul>
 			</div>
@@ -52,4 +43,77 @@
 		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
 	</div>
 </body>
+<script>
+	const getGuestBookList = () => {
+		return [
+				<%
+					int count = list.size();
+					int index = 0;
+					for (GuestBookVo vo : list) {
+				%>
+			{
+				id: <%=vo.getId() %>,
+				name: '<%=vo.getName() %>',
+				regDate: '<%=vo.getRegDate() %>',
+				content: `<%=vo.getContents().replaceAll("\n", "<br>") %>`,
+			},
+				<%
+				}
+				%>
+		]
+	}
+
+	const renderGuestBookList = () => {
+		const list = getGuestBookList();
+		const guestBookListElement = document.getElementById('guestbook-list');
+
+		let count = list.length;
+		let index = 0;
+
+		for (const guestBook of list) {
+			const guestBookTableElement = document.createElement('table');
+			const guestBookMetadataRowElement = document.createElement('tr');
+
+			const idCol = document.createElement('td');
+			idCol.innerHTML = '[' + (count - index++) + ']';
+			guestBookMetadataRowElement.appendChild(idCol);
+
+			const nameCol = document.createElement('td');
+			nameCol.innerHTML = guestBook.name;
+			guestBookMetadataRowElement.appendChild(nameCol);
+
+			const regDateCol = document.createElement('td');
+			regDateCol.innerHTML = guestBook.regDate;
+			guestBookMetadataRowElement.appendChild(regDateCol);
+
+			const deleteHrefCol = document.createElement('td');
+			const deleteHref = document.createElement('a');
+			deleteHref.href =
+					'<%=request.getContextPath() %>/guestbook?a=deleteform&id=' + guestBook.id;
+			deleteHref.innerHTML = '삭제';
+			deleteHrefCol.appendChild(deleteHref);
+			guestBookMetadataRowElement.appendChild(deleteHrefCol);
+
+			guestBookTableElement.appendChild(guestBookMetadataRowElement);
+
+			const guestBookContentRowElement = document.createElement('tr');
+
+			const contentCol = document.createElement('td');
+			contentCol.innerHTML = guestBook.content;
+			contentCol.colSpan = 4;
+			guestBookMetadataRowElement.appendChild(contentCol);
+
+			guestBookContentRowElement.appendChild(contentCol);
+			guestBookTableElement.appendChild(guestBookContentRowElement);
+
+			guestBookListElement.appendChild(guestBookTableElement);
+			guestBookListElement.appendChild(document.createElement('br'));
+
+
+		}
+	}
+</script>
+<script>
+	renderGuestBookList();
+</script>
 </html>
