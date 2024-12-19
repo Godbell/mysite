@@ -7,11 +7,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import mysite.controller.ActionServlet.Action;
+import mysite.controller.ActionServlet;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
-public class LoginAction implements Action {
+public class LoginAction implements ActionServlet.Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

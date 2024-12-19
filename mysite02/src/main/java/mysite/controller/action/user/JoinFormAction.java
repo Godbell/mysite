@@ -2,13 +2,16 @@ package mysite.controller.action.user;
 
 import java.io.IOException;
 
+import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.controller.ActionServlet;
-public class JoinFormAction implements ActionServlet.Action {
-    @Override
-    public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+import mysite.controller.ActionServlet.Action;
 
+public class JoinFormAction implements Action {
+    @Override
+    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/joinform.jsp");
+        rd.forward(request, response);
     }
 }

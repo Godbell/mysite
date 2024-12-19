@@ -17,21 +17,16 @@ public class UpdateFormAction implements Action {
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
 
-        // Access Control
-        if(session == null) {
+        if (session == null) {
             response.sendRedirect(request.getContextPath());
             return;
         }
 
         UserVo authUser = (UserVo)session.getAttribute("authUser");
-        if(authUser == null) {
+        if (authUser == null) {
             response.sendRedirect(request.getContextPath());
             return;
         }
-        //////////////////////////////////////////////////////////
-
-        // UserVo vo = new UserDao().findById(authUser.getId());
-        // request.setAttribute("vo", vo);
 
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/updateform.jsp");
         rd.forward(request, response);
