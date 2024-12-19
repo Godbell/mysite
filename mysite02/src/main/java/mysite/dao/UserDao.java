@@ -32,19 +32,26 @@ public class UserDao {
 
         try (
             Connection conn = getConnection();
-            PreparedStatement pstmt = conn.prepareStatement("select id, name from user where email=? and password=?");
+            PreparedStatement pstmt = conn.prepareStatement(
+            """
+                    SELECT id, name, gender, join_date
+                    FROM user
+                    WHERE email = ?
+                        AND password=?
+                """
+            );
         ) {
             pstmt.setString(1, email);
             pstmt.setString(2, password);
 
             ResultSet rs = pstmt.executeQuery();
-            if(rs.next()) {
-                Long id = rs.getLong(1);
-                String name = rs.getString(2);
-
+            if (rs.next()) {
                 userVo = new UserVo();
-                userVo.setId(id);
-                userVo.setName(name);
+                userVo.setId(rs.getLong("id"));
+                userVo.setName(rs.getString("name"));
+                userVo.setEmail(email);
+                userVo.setGender(rs.getString("gender"));
+                userVo.setJoinDate(rs.getString("join_date"));
             }
 
             rs.close();
@@ -68,5 +75,30 @@ public class UserDao {
         }
 
         return conn;
+    }
+
+    public void update(UserVo vo) {
+        try (
+            Connection connection = this.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                """
+                    UPDATE user
+                        SET
+                        name = COALESCE(?, name),
+                        password = COALESCE(?, password),
+                        gender = COALESCE(?, gender)
+                    WHERE id = ?;
+                    """
+            );
+        ) {
+            preparedStatement.setString(1, vo.getName());
+            preparedStatement.setString(2, vo.getPassword());
+            preparedStatement.setString(3, vo.getGender());
+            preparedStatement.setLong(4, vo.getId());
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
     }
 }

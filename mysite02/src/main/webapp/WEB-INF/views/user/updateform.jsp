@@ -1,4 +1,9 @@
+<%@ page import="mysite.vo.UserVo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+  UserVo authUser = (UserVo)session.getAttribute("authUser");
+%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,21 +17,21 @@
   <div id="content">
     <div id="user">
 
-      <form id="join-form" name="joinForm" method="post" action="<%=request.getContextPath() %>/user">
+      <form id="update-form" name="updateForm" method="post" action="<%=request.getContextPath() %>/user">
         <input type='hidden' name="a" value="update">
         <label class="block-label" for="name">이름</label>
-        <input id="name" name="name" type="text" value="안대혁">
+        <input id="name" name="name" type="text">
 
         <label class="block-label" for="email">이메일</label>
-        <h4 id="email">kickscar@gmail.com</h4>
+        <h4 id="email"></h4>
 
         <label class="block-label">패스워드</label>
-        <input name="password" type="password" value="">
+        <input name="password" type="password">
 
         <fieldset>
           <legend>성별</legend>
-          <label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-          <label>남</label> <input type="radio" name="gender" value="male">
+          <label>여</label> <input id="gender-female" type="radio" name="gender" value="female">
+          <label>남</label> <input id="gender-male" type="radio" name="gender" value="male">
         </fieldset>
 
         <input type="submit" value="수정하기">
@@ -37,4 +42,9 @@
   <jsp:include page="/WEB-INF/views/includes/footer.jsp"/>
 </div>
 </body>
+<script>
+  document.getElementById("email").innerHTML = "<%=authUser.getEmail() %>"
+  document.getElementById("gender-<%=authUser.getGender()%>").checked = "checked";
+  document.getElementById("name").value = "<%=authUser.getName() %>";
+</script>
 </html>
