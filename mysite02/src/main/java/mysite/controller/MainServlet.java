@@ -2,23 +2,28 @@ package mysite.controller;
 
 import java.io.IOException;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mysite.controller.action.main.MainAction;
 
 @WebServlet({"", "/main"})
-public class MainServlet extends HttpServlet {
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-        IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("/WEB-INF/views/main/index.jsp");
-        dispatcher.forward(request, response);
+public class MainServlet extends ActionServlet {
+
+    @Override
+    protected Action getAction(String actionName) {
+        return new MainAction();
     }
 
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException,
+    protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException,
         IOException {
-        doGet(request, response);
+        req.setCharacterEncoding("utf-8");
+        getAction(req.getParameter("a")).execute(req, res);
+    }
+
+    protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException,
+        IOException {
+        doGet(req, res);
     }
 }
