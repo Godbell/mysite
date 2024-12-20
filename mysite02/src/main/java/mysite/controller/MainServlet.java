@@ -23,7 +23,6 @@ public class MainServlet extends ActionServlet {
 
     protected void doGet(HttpServletRequest req, HttpServletResponse res) throws ServletException,
         IOException {
-        req.setCharacterEncoding("utf-8");
         getAction(req.getParameter("a")).execute(req, res);
     }
 
