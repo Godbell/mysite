@@ -14,7 +14,8 @@
 		<div id="wrapper">
 			<div id="content">
 				<div id="site-introduction">
-					<img id="profile" src="/mysite02/assets/images/profile.png">
+					<img id="profile" src="https://godbell.kr/content/images/size/w2000/2023/05/nest-og.png"
+						style="width: 100%;">
 					<h2>안녕하세요. 김종하의  mysite에 오신 것을 환영합니다.</h2>
 					<p>
 						이 사이트는 자바 프로그램밍 실습과제 예제 사이트입니다.<br>

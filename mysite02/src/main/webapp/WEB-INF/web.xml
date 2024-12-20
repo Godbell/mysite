@@ -5,6 +5,29 @@
          version="5.0">
   <display-name>mysite02</display-name>
 
+  <servlet>
+    <servlet-name>MainServlet</servlet-name>
+    <servlet-class>mysite.controller.MainServlet</servlet-class>
+    <init-param>
+      <param-name>config</param-name>
+      <param-value>/WEB-INF/servlet-context.xml</param-value>
+    </init-param>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>MainServlet</servlet-name>
+    <url-pattern></url-pattern>
+  </servlet-mapping>
+
+  <context-param>
+    <param-name>contextConfigLocation</param-name>
+    <param-value>/WEB-INF/applicationContext.xml</param-value>
+  </context-param>
+
+  <listener>
+    <listener-class>mysite.web.ContextLoadListener</listener-class>
+  </listener>
+
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>

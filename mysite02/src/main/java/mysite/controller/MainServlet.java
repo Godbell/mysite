@@ -8,8 +8,13 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.controller.action.main.MainAction;
 
-@WebServlet({"", "/main"})
 public class MainServlet extends ActionServlet {
+
+    @Override
+    public void init() throws ServletException {
+        System.out.println(getServletConfig().getInitParameter("config"));
+        super.init();
+    }
 
     @Override
     protected Action getAction(String actionName) {
