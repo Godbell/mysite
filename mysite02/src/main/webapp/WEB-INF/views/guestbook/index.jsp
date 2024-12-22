@@ -1,3 +1,7 @@
+<%@ taglib prefix="c" uri="jakarta.tags.core"%>
+<%@ taglib prefix="fmt" uri="jakarta.tags.fmt"%>
+<%@ taglib prefix="fn" uri="jakarta.tags.functions"%>
+
 <%@ page import="mysite.vo.GuestBookVo" %>
 <%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -5,20 +9,21 @@
 <%
 	List<GuestBookVo> list = (List<GuestBookVo>)request.getAttribute("list");
 %>
+<c:set var="path" value="<%=request.getContextPath()%>"/>
 
 <!DOCTYPE html>
 <html>
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
-<link href="<%=request.getContextPath() %>/assets/css/guestbook.css" rel="stylesheet" type="text/css">
+<link href="${path}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="container">
-		<jsp:include page="/WEB-INF/views/includes/header.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/header.jsp"/>
 		<div id="content">
 			<div id="guestbook">
-				<form action="<%=request.getContextPath() %>/guestbook" method="post">
+				<form action="${path}/guestbook" method="post">
 					<input type="hidden" name="a" value="insert">
 					<table>
 						<tr>
@@ -39,8 +44,8 @@
 				</ul>
 			</div>
 		</div>
-		<jsp:include page="/WEB-INF/views/includes/navigation.jsp"></jsp:include>
-		<jsp:include page="/WEB-INF/views/includes/footer.jsp"></jsp:include>
+		<c:import url="/WEB-INF/views/includes/navigation.jsp"/>
+		<c:import url="/WEB-INF/views/includes/footer.jsp"/>
 	</div>
 </body>
 <script>
@@ -89,7 +94,7 @@
 			const deleteHrefCol = document.createElement('td');
 			const deleteHref = document.createElement('a');
 			deleteHref.href =
-					'<%=request.getContextPath() %>/guestbook?a=deleteform&id=' + guestBook.id;
+					'${path}/guestbook?a=deleteform&id=' + guestBook.id;
 			deleteHref.innerHTML = '삭제';
 			deleteHrefCol.appendChild(deleteHref);
 			guestBookMetadataRowElement.appendChild(deleteHrefCol);
@@ -108,8 +113,6 @@
 
 			guestBookListElement.appendChild(guestBookTableElement);
 			guestBookListElement.appendChild(document.createElement('br'));
-
-
 		}
 	}
 </script>
