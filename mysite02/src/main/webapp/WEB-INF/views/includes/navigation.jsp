@@ -7,8 +7,8 @@
 
 <div id="navigation">
     <ul>
-        <li><a href="${path}%>">김종하</a></li>
+        <li><a href="${path}">김종하</a></li>
         <li><a href="${path}/guestbook">방명록</a></li>
-        <li><a href="${path}%>/board">게시판</a></li>
+        <li><a href="${path}/board">게시판</a></li>
     </ul>
 </div>
