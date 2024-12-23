@@ -53,6 +53,42 @@ public class BoardDao {
         return result;
     }
 
+    public BoardVo findById(Long id) {
+        BoardVo result = null;
+
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                """
+                    SELECT
+                        board.id, title,
+                        u.id AS "user_id",
+                        u.name AS "username",
+                        contents, reg_date
+                    FROM board
+                    LEFT JOIN webdb.user u ON board.user_id = u.id
+                    WHERE board.id = ?;
+                    """
+            )
+        ) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                result = new BoardVo();
+                result.setId(id);
+                result.setTitle(resultSet.getString("title"));
+                result.setContents(resultSet.getString("contents"));
+                result.setUserId(resultSet.getLong("user_id"));
+                result.setUsername(resultSet.getString("username"));
+            }
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+
+        return result;
+    }
+
     public BoardVo insert(BoardVo vo) {
         try (
             Connection connection = DataSource.getConnection();

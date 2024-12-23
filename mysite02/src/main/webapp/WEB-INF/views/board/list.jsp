@@ -95,7 +95,7 @@
             const titleColumn = document.createElement('td');
             titleColumn.className = 'title-area';
             const title = document.createElement('a');
-            title.href = '${path}/board?a=read&post_id=' + post.id;
+            title.href = '${path}/board?a=view&post_id=' + post.id;
             for (let i = 0; i < post.depth; ++i) {
                 title.innerHTML += '⎿';
             }
