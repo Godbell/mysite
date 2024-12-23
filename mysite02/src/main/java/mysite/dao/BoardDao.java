@@ -64,7 +64,7 @@ public class BoardDao {
                         board.id, title,
                         u.id AS "user_id",
                         u.name AS "username",
-                        contents
+                        contents, g_no, depth
                     FROM board
                     LEFT JOIN webdb.user u ON board.user_id = u.id
                     WHERE board.id = ?;
@@ -81,6 +81,8 @@ public class BoardDao {
                 result.setContents(resultSet.getString("contents"));
                 result.setUserId(resultSet.getLong("user_id"));
                 result.setUsername(resultSet.getString("username"));
+                result.setGroupNo(resultSet.getInt("g_no"));
+                result.setDepth(resultSet.getInt("depth"));
             }
         } catch (SQLException e) {
             System.out.println("sql error: " + e);
@@ -93,27 +95,36 @@ public class BoardDao {
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                """
-                    INSERT INTO board
-                        (title, contents, g_no, depth, user_id)
-                    VALUES
-                        (?, ?, ?, ?, ?);
-                    """,
+                String.format("""
+                        INSERT INTO board
+                            (title, contents, user_id, g_no, depth)
+                        SELECT ?, ?, ?, %s, %s
+                        FROM board
+                        LIMIT 0, 1;
+                        """,
+                    vo.getGroupNo() == null ? "MAX(g_no) + 1" : "?",
+                    vo.getDepth() == null ? "0" : "?"
+                ),
                 Statement.RETURN_GENERATED_KEYS
             )
         ) {
             preparedStatement.setString(1, vo.getTitle());
             preparedStatement.setString(2, vo.getContents());
-            preparedStatement.setInt(3, vo.getGroupNo());
-            preparedStatement.setInt(4, vo.getDepth());
-            preparedStatement.setLong(5, vo.getUserId());
+            preparedStatement.setLong(3, vo.getUserId());
+
+            if (vo.getGroupNo() != null && vo.getDepth() != null) {
+                preparedStatement.setInt(4, vo.getGroupNo());
+                preparedStatement.setInt(5, vo.getDepth());
+            }
 
             preparedStatement.executeUpdate();
 
             ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-            generatedKeys.next();
 
-            vo.setId(generatedKeys.getLong(1));
+            if (generatedKeys.next()) {
+                vo.setId(generatedKeys.getLong(1));
+                System.out.println("set id to " + generatedKeys.getLong(1));
+            }
         } catch (SQLException e) {
             System.out.println("sql error: " + e);
         }

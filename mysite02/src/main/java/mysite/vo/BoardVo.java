@@ -6,8 +6,8 @@ public class BoardVo {
     private String contents;
     private int hit;
     private String regDate;
-    private int groupNo;
-    private int depth;
+    private Integer groupNo;
+    private Integer depth;
     private Long userId;
     private String username;
 
@@ -51,7 +51,7 @@ public class BoardVo {
         this.regDate = regDate;
     }
 
-    public int getGroupNo() {
+    public Integer getGroupNo() {
         return groupNo;
     }
 
@@ -59,11 +59,11 @@ public class BoardVo {
         this.groupNo = groupNo;
     }
 
-    public int getDepth() {
+    public Integer getDepth() {
         return depth;
     }
 
-    public void setDepth(int depth) {
+    public void setDepth(Integer depth) {
         this.depth = depth;
     }
 

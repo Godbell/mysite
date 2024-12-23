@@ -22,11 +22,20 @@ public class InsertAction implements Action {
         BoardVo vo = new BoardVo();
         vo.setUserId(authUser.getId());
         vo.setTitle(req.getParameter("title"));
-        vo.setContents(req.getParameter("contents"));
-        vo.setDepth(Integer.parseInt(req.getParameter("depth")));
-        vo.setGroupNo(Integer.parseInt(req.getParameter("g_no")));
+        vo.setContents(req.getParameter("content"));
 
+        String parentPostIdParam = req.getParameter("parentPostId");
         BoardDao dao = new BoardDao();
-        dao.insert(vo);
+
+        if (parentPostIdParam != null) {
+            Long parentPostId = Long.parseLong(parentPostIdParam);
+            BoardVo parentVo = dao.findById(parentPostId);
+
+            vo.setDepth(parentVo.getDepth() + 1);
+            vo.setGroupNo(parentVo.getGroupNo());
+        }
+
+        BoardVo inserted = dao.insert(vo);
+        res.sendRedirect(req.getContextPath() + "/board?a=view&post_id=" + inserted.getId());
     }
 }

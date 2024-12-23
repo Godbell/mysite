@@ -12,13 +12,15 @@ import mysite.Action;
 import mysite.controller.action.board.InsertAction;
 import mysite.controller.action.board.ListAction;
 import mysite.controller.action.board.ViewAction;
+import mysite.controller.action.board.WriteAction;
 
 @WebServlet("/board")
 public class BoardServlet extends ActionServlet {
     private final transient Map<String, Action> mapAction = Map.of(
         "list", new ListAction(),
-        "insert", new InsertAction(),
-        "view", new ViewAction()
+        "view", new ViewAction(),
+        "write", new WriteAction(),
+        "insert", new InsertAction()
     );
 
     @Override

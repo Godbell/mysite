@@ -43,9 +43,9 @@
             <div class="bottom">
                 <a href="${path}/board?a=list">글목록</a>
                 <c:if test="${!(empty authUser)}">
-                    <a href="${path}/board?a=insertform&reply_to_post_id=${post.id}">답글 달기</a>
+                    <a href="${path}/board?a=write&parent_post_id=${post.id}">답글 달기</a>
                     <c:if test="${authUser.id == post.userId}">
-                        <a href="${path}/board?a=edit&post_id=${post.id}">글수정</a>
+                        <a href="${path}/board?a=modify&post_id=${post.id}">글수정</a>
                     </c:if>
                 </c:if>
             </div>

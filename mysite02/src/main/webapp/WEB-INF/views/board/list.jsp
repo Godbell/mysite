@@ -55,7 +55,9 @@
             <!-- pager 추가 -->
 
             <div class="bottom">
-                <a href="" id="new-book">글쓰기</a>
+                <c:if test='${!empty pageContext.session.getAttribute("authUser")}'>
+                    <a href="${path}/board?a=write" id="new-book">글쓰기</a>
+                </c:if>
             </div>
         </div>
     </div>
