@@ -5,10 +5,10 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.controller.ActionServlet;
+import mysite.Action;
 import mysite.dao.GuestBookDao;
 import mysite.vo.GuestBookVo;
-public class InsertAction implements ActionServlet.Action {
+public class InsertAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         GuestBookDao dao = new GuestBookDao();

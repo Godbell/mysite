@@ -1,23 +1,18 @@
 package mysite.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mysite.Action;
 import mysite.controller.action.guestbook.DeleteAction;
 import mysite.controller.action.guestbook.DeleteFormAction;
 import mysite.controller.action.guestbook.InsertAction;
 import mysite.controller.action.guestbook.ListAction;
-import mysite.controller.action.main.MainAction;
-import mysite.dao.GuestBookDao;
-import mysite.vo.GuestBookVo;
 
 @WebServlet("/guestbook")
 public class GuestBookServlet extends ActionServlet {

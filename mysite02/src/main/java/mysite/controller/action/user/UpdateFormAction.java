@@ -7,8 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import mysite.controller.ActionServlet.Action;
-import mysite.dao.UserDao;
+import mysite.Action;
 import mysite.vo.UserVo;
 
 public class UpdateFormAction implements Action {
@@ -31,5 +30,4 @@ public class UpdateFormAction implements Action {
         RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/updateform.jsp");
         rd.forward(request, response);
     }
-
 }

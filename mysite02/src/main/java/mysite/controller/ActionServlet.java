@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mysite.Action;
 public abstract class ActionServlet extends HttpServlet {
     protected abstract Action getAction(String actionName);
 
@@ -20,9 +21,5 @@ public abstract class ActionServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         doGet(req, res);
-    }
-
-    public static interface Action {
-        void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException;
     }
 }

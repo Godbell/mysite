@@ -5,12 +5,11 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.controller.ActionServlet;
-import mysite.controller.ActionServlet.Action;
+import mysite.Action;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
-public class JoinAction implements ActionServlet.Action {
+public class JoinAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -6,7 +6,7 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.controller.ActionServlet.Action;
+import mysite.Action;
 
 public class JoinFormAction implements Action {
     @Override

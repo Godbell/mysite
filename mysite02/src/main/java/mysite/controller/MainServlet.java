@@ -3,9 +3,9 @@ package mysite.controller;
 import java.io.IOException;
 
 import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import mysite.Action;
 import mysite.controller.action.main.MainAction;
 
 public class MainServlet extends ActionServlet {

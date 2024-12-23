@@ -5,9 +5,9 @@ import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.controller.ActionServlet;
+import mysite.Action;
 import mysite.dao.GuestBookDao;
-public class DeleteAction implements ActionServlet.Action {
+public class DeleteAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         Long id = Long.parseLong(req.getParameter("id"));

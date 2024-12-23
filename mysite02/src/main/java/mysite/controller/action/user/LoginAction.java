@@ -7,11 +7,11 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
-import mysite.controller.ActionServlet;
+import mysite.Action;
 import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
-public class LoginAction implements ActionServlet.Action {
+public class LoginAction implements Action {
 
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -23,7 +23,7 @@ public class LoginAction implements ActionServlet.Action {
         System.out.println(vo);
 
         // 로그인 실패
-        if(vo == null) {
+        if (vo == null) {
             request.setAttribute("result", "fail");
             request.setAttribute("email", email);
             RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp");
