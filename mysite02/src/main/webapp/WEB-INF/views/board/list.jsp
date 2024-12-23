@@ -93,9 +93,14 @@
             tr.appendChild(idColumn);
 
             const titleColumn = document.createElement('td');
+            titleColumn.className = 'title-area';
             const title = document.createElement('a');
             title.href = '${path}/board?a=read&post_id=' + post.id;
-            title.innerHTML = post.title;
+            for (let i = 0; i < post.depth; ++i) {
+                title.innerHTML += '⎿';
+            }
+            title.innerHTML += ' ';
+            title.innerHTML += post.title;
             titleColumn.appendChild(title);
             tr.appendChild(titleColumn);
 
