@@ -47,3 +47,7 @@ k
 ,mysite02/src/main/java/mysite/vo/UserVo.java,d/7/d77e02d7f9960bf8f1ca07193ddb49fefa59a771
 i
 9mysite02/src/main/java/mysite/controller/UserServlet.java,c/4/c479f1576477a2d2b9e5d99f4b3baaa2bd18faf8
+u
+Emysite02/src/main/java/mysite/controller/action/board/ListAction.java,a/5/a56bee719578d867489cef1ab036138a674b80b1
+e
+5mysite02/src/main/webapp/WEB-INF/views/board/list.jsp,0/5/0547cb99611f9c28a11d04270ef6c36f911d7863

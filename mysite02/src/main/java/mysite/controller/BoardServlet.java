@@ -9,12 +9,14 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
+import mysite.controller.action.board.InsertAction;
 import mysite.controller.action.board.ListAction;
 
 @WebServlet("/board")
 public class BoardServlet extends ActionServlet {
     private final transient Map<String, Action> mapAction = Map.of(
-        "list", new ListAction()
+        "list", new ListAction(),
+        "insert", new InsertAction()
     );
 
     @Override
