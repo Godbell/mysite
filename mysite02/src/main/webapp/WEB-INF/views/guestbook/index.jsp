@@ -12,7 +12,7 @@
 <c:set var="path" value="<%=request.getContextPath()%>"/>
 
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
 <title>mysite</title>
 <meta http-equiv="content-type" content="text/html; charset=utf-8">
