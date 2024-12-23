@@ -64,7 +64,7 @@ public class BoardDao {
                         board.id, title,
                         u.id AS "user_id",
                         u.name AS "username",
-                        contents, reg_date
+                        contents
                     FROM board
                     LEFT JOIN webdb.user u ON board.user_id = u.id
                     WHERE board.id = ?;
