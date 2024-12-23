@@ -131,4 +131,26 @@ public class BoardDao {
 
         return vo;
     }
+
+    public void update(BoardVo vo, Long userId) {
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                UPDATE board
+                    SET title = ?, contents = ?
+                WHERE id = ?
+                    AND user_id = ?;
+                """
+            )
+        ) {
+            preparedStatement.setString(1, vo.getTitle());
+            preparedStatement.setString(2, vo.getContents());
+            preparedStatement.setLong(3, vo.getId());
+            preparedStatement.setLong(4, userId);
+
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+    }
 }

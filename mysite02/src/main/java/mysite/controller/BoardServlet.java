@@ -11,6 +11,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
 import mysite.controller.action.board.InsertAction;
 import mysite.controller.action.board.ListAction;
+import mysite.controller.action.board.ModifyAction;
+import mysite.controller.action.board.UpdateAction;
 import mysite.controller.action.board.ViewAction;
 import mysite.controller.action.board.WriteAction;
 
@@ -20,7 +22,9 @@ public class BoardServlet extends ActionServlet {
         "list", new ListAction(),
         "view", new ViewAction(),
         "write", new WriteAction(),
-        "insert", new InsertAction()
+        "insert", new InsertAction(),
+        "modify", new ModifyAction(),
+        "update", new UpdateAction()
     );
 
     @Override
