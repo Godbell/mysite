@@ -12,7 +12,7 @@ import mysite.controller.action.board.ListAction;
 
 @WebServlet("/board")
 public class BoardServlet extends ActionServlet {
-    private final Map<String, Action> mapAction = Map.of(
+    private final transient Map<String, Action> mapAction = Map.of(
         "list", new ListAction()
     );
 

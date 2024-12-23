@@ -16,7 +16,7 @@ import mysite.controller.action.user.UpdateFormAction;
 @WebServlet("/user")
 public class UserServlet extends ActionServlet {
 
-    private final Map<String, Action> mapAction = Map.of(
+    private final transient Map<String, Action> mapAction = Map.of(
         "joinform", new JoinFormAction(),
         "join", new JoinAction(),
         "joinsuccess", new JoinSuccessAction(),

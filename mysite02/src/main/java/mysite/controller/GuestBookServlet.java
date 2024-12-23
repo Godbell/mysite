@@ -21,7 +21,7 @@ import mysite.vo.GuestBookVo;
 
 @WebServlet("/guestbook")
 public class GuestBookServlet extends ActionServlet {
-    private Map<String, Action> mapAction = Map.of(
+    private final transient Map<String, Action> mapAction = Map.of(
         "insert", new InsertAction(),
         "deleteform", new DeleteFormAction(),
         "delete", new DeleteAction(),
