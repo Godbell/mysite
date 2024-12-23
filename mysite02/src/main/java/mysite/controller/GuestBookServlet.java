@@ -34,6 +34,7 @@ public class GuestBookServlet extends ActionServlet {
         return action == null ? mapAction.get("list") : action;
     }
 
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException,
         IOException {
         String actionName = Optional.ofNullable(request.getParameter("a")).orElse("");
