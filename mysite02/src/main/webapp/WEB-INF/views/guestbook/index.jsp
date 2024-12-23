@@ -3,9 +3,9 @@
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<% pageContext.setAttribute("newline", "\n"); %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<% pageContext.setAttribute("newline", "\n"); %>
 
 <!DOCTYPE html>
 <html lang="ko">
