@@ -9,13 +9,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import mysite.vo.BoardVo;
+import mysite.vo.PostVo;
 public class BoardDao {
-    public List<BoardVo> findAll(int page, int postsCountPerPage) {
-        List<BoardVo> result = new ArrayList<>();
+    public BoardVo findAll(int page, int postsCountPerPage) {
+        BoardVo resultVo = new BoardVo();
+        List<PostVo> posts = new ArrayList<>();
 
         try (
             Connection connection = DataSource.getConnection();
-            PreparedStatement preparedStatement = connection.prepareStatement(
+            PreparedStatement selectStatement = connection.prepareStatement(
                 """ 
                     SELECT
                         board.id,
@@ -30,15 +32,18 @@ public class BoardDao {
                     ORDER BY g_no DESC, o_no
                     LIMIT ?, ?;
                     """
+            );
+            PreparedStatement totalCountStatement = connection.prepareStatement(
+                "SELECT COUNT(*) AS total_count FROM board"
             )
         ) {
-            preparedStatement.setInt(1, (page - 1) * postsCountPerPage);
-            preparedStatement.setInt(2, postsCountPerPage);
+            selectStatement.setInt(1, (page - 1) * postsCountPerPage);
+            selectStatement.setInt(2, postsCountPerPage);
 
-            ResultSet resultSet = preparedStatement.executeQuery();
+            ResultSet resultSet = selectStatement.executeQuery();
 
             while (resultSet.next()) {
-                BoardVo vo = new BoardVo();
+                PostVo vo = new PostVo();
                 vo.setId(resultSet.getLong("id"));
                 vo.setTitle(resultSet.getString("title"));
                 vo.setHit(resultSet.getInt("hit"));
@@ -50,17 +55,22 @@ public class BoardDao {
                 vo.setOrderNo(resultSet.getInt("o_no"));
                 vo.setBoardIndex(resultSet.getInt("board_index"));
 
-                result.add(vo);
+                posts.add(vo);
             }
+            resultVo.setPosts(posts);
+
+            ResultSet countResultSet = totalCountStatement.executeQuery();
+            countResultSet.next();
+            resultVo.setTotalCount(countResultSet.getInt("total_count"));
         } catch (SQLException e) {
             System.out.println("sql error: " + e);
         }
 
-        return result;
+        return resultVo;
     }
 
-    public BoardVo findById(Long id) {
-        BoardVo result = null;
+    public PostVo findById(Long id) {
+        PostVo result = null;
 
         try (
             Connection connection = DataSource.getConnection();
@@ -81,7 +91,7 @@ public class BoardDao {
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
-                result = new BoardVo();
+                result = new PostVo();
                 result.setId(id);
                 result.setTitle(resultSet.getString("title"));
                 result.setContents(resultSet.getString("contents"));
@@ -98,7 +108,7 @@ public class BoardDao {
         return result;
     }
 
-    public BoardVo insert(BoardVo vo) {
+    public PostVo insert(PostVo vo) {
         boolean isReply = vo.getGroupNo() != null && vo.getDepth() != null && vo.getOrderNo() != null;
 
         try (
@@ -166,7 +176,7 @@ public class BoardDao {
         return vo;
     }
 
-    public void update(BoardVo vo, Long userId) {
+    public void update(PostVo vo, Long userId) {
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("""

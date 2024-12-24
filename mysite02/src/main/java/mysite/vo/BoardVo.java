@@ -1,103 +1,23 @@
 package mysite.vo;
 
+import java.util.List;
 public class BoardVo {
-    private Long id;
-    private String title;
-    private String contents;
-    private int hit;
-    private String regDate;
-    private Integer groupNo;
-    private Integer orderNo;
-    private Integer depth;
-    private Long userId;
-    private String username;
-    private Integer boardIndex;
+    private List<PostVo> posts;
+    private Integer totalCount;
 
-    public Long getId() {
-        return id;
+    public List<PostVo> getPosts() {
+        return posts.subList(0, posts.size());
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setPosts(List<PostVo> posts) {
+        this.posts = posts;
     }
 
-    public String getTitle() {
-        return title;
+    public Integer getTotalCount() {
+        return totalCount;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getContents() {
-        return contents;
-    }
-
-    public void setContents(String contents) {
-        this.contents = contents;
-    }
-
-    public int getHit() {
-        return hit;
-    }
-
-    public void setHit(int hit) {
-        this.hit = hit;
-    }
-
-    public String getRegDate() {
-        return regDate;
-    }
-
-    public void setRegDate(String regDate) {
-        this.regDate = regDate;
-    }
-
-    public Integer getGroupNo() {
-        return groupNo;
-    }
-
-    public void setGroupNo(int groupNo) {
-        this.groupNo = groupNo;
-    }
-
-    public Integer getDepth() {
-        return depth;
-    }
-
-    public void setDepth(Integer depth) {
-        this.depth = depth;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Integer getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(Integer orderNo) {
-        this.orderNo = orderNo;
-    }
-
-    public Integer getBoardIndex() {
-        return boardIndex;
-    }
-
-    public void setBoardIndex(Integer boardIndex) {
-        this.boardIndex = boardIndex;
+    public void setTotalCount(Integer totalCount) {
+        this.totalCount = totalCount;
     }
 }

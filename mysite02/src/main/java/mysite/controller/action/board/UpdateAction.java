@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
 import mysite.dao.BoardDao;
-import mysite.vo.BoardVo;
+import mysite.vo.PostVo;
 import mysite.vo.UserVo;
 public class UpdateAction implements Action {
     @Override
@@ -23,7 +23,7 @@ public class UpdateAction implements Action {
         UserVo authUser = (UserVo)req.getSession().getAttribute("authUser");
 
         BoardDao dao = new BoardDao();
-        BoardVo vo = new BoardVo();
+        PostVo vo = new PostVo();
 
         vo.setId(postId);
         vo.setTitle(req.getParameter("title"));

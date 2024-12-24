@@ -4,14 +4,14 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="list" scope="request" type="java.util.List<mysite.vo.BoardVo>"/>
+<jsp:useBean id="list" scope="request" type="java.util.List<mysite.vo.PostVo>"/>
 <jsp:useBean id="postsCountPerPage" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="totalCount" scope="request" type="java.lang.Integer"/>
+<jsp:useBean id="currentPage" scope="request" type="java.lang.Integer"/>
 
-<c:choose>
-    <c:when test='<%=session.getAttribute("authUser") != null %>'>
-        <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
-    </c:when>
-</c:choose>
+<c:if test='<%=session.getAttribute("authUser") != null %>'>
+    <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -40,19 +40,8 @@
                 </tr>
             </table>
 
-            <!-- pager 추가 -->
             <div class="pager">
-                <ul>
-                    <li><a href="">◀</a></li>
-                    <li><a href="">1</a></li>
-                    <li class="selected">2</li>
-                    <li><a href="">3</a></li>
-                    <li>4</li>
-                    <li>5</li>
-                    <li><a href="">▶</a></li>
-                </ul>
             </div>
-            <!-- pager 추가 -->
 
             <div class="bottom">
                 <c:if test='${!empty pageContext.session.getAttribute("authUser")}'>
@@ -68,27 +57,33 @@
 </div>
 </body>
 <script>
-    const boardData = [
-        <c:forEach var="post" items="${list}" varStatus="status">
-        {
-            id: ${post.id},
-            index: ${post.boardIndex},
-            title: '${post.title}',
-            userId: ${post.userId},
-            username: '${post.username}',
-            depth: ${post.depth},
-            groupNo: ${post.groupNo},
-            regDate: '${post.regDate}',
-            hit: ${post.hit},
-        },
-        </c:forEach>
-    ];
+    const boardData = {
+        posts: [
+            <c:forEach var="post" items="${list}" varStatus="status">
+            {
+                id: ${post.id},
+                index: ${post.boardIndex},
+                title: '${post.title}',
+                userId: ${post.userId},
+                username: '${post.username}',
+                depth: ${post.depth},
+                groupNo: ${post.groupNo},
+                regDate: '${post.regDate}',
+                hit: ${post.hit},
+            },
+            </c:forEach>
+        ],
+        totalCount: ${totalCount},
+        postsCountPerPage: ${postsCountPerPage},
+        currentPage: ${currentPage},
+        pageHrefsCountPerPage: 5,
+    };
 
     const renderBoard = () => {
         let userId = ${empty authUser ? -1 : authUser.id};
         const table = document.getElementById('board_list')
 
-        for (const post of boardData) {
+        for (const post of boardData.posts) {
             const tr = document.createElement('tr');
 
             const idColumn = document.createElement('td');
@@ -134,8 +129,66 @@
             table.appendChild(tr);
         }
     }
+
+    const renderPager = () => {
+        const pagerContainer = document.getElementsByClassName('pager')[0];
+        const pager = document.createElement('ul');
+        pagerContainer.appendChild(pager);
+
+        const lastPageButtonContainer = document.createElement('li');
+        const lastPageButton = document.createElement('a');
+        lastPageButton.textContent = '◀';
+        lastPageButton.href = boardData.currentPage > 1
+            ? `${path}/board?a=list&page=' + \${boardData.currentPage - 1}`
+            : '';
+        lastPageButtonContainer.appendChild(lastPageButton);
+        pager.appendChild(lastPageButtonContainer);
+
+        const maxPage = Math.ceil(boardData.totalCount / boardData.postsCountPerPage)
+        let startIndex = 1;
+        let endIndex = 5;
+
+        if (boardData.currentPage <= Math.ceil(boardData.pageHrefsCountPerPage / 2)) {
+            startIndex = 1;
+            endIndex = boardData.pageHrefsCountPerPage;
+        } else if (
+            boardData.currentPage > maxPage - Math.ceil(boardData.pageHrefsCountPerPage / 2)
+        ) {
+            startIndex = maxPage - boardData.pageHrefsCountPerPage + 1;
+            endIndex = maxPage;
+        } else {
+            startIndex = boardData.currentPage - 2;
+            endIndex = boardData.currentPage + 2;
+        }
+
+        for (let page = startIndex; page <= endIndex; ++page) {
+            const pageHrefContainer = document.createElement('li');
+            pageHrefContainer.className = page === boardData.currentPage ? 'selected' : '';
+
+            if (page <= maxPage) {
+                const pageHref = document.createElement('a');
+                pageHref.href = '${path}/board?a=list&page=' + page;
+                pageHref.textContent = `\${page}`
+                pageHrefContainer.appendChild(pageHref);
+            } else {
+                pageHrefContainer.textContent = `\${page}`;
+            }
+
+            pager.appendChild(pageHrefContainer);
+        }
+
+        const nextPageButtonContainer = document.createElement('li');
+        const nextPageButton = document.createElement('a');
+        nextPageButton.textContent = '▶';
+        nextPageButton.href = boardData.currentPage < boardData.totalCount / boardData.currentPage
+            ? `${path}/board?a=list&page=\${boardData.currentPage + 1}`
+            : '';
+        nextPageButtonContainer.appendChild(nextPageButton);
+        pager.appendChild(nextPageButtonContainer);
+    }
 </script>
 <script>
     renderBoard();
+    renderPager();
 </script>
 </html>

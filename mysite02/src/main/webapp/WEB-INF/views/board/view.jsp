@@ -5,7 +5,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
 <% pageContext.setAttribute("newline", "\n"); %>
-<jsp:useBean id="post" scope="request" type="mysite.vo.BoardVo"/>
+<jsp:useBean id="post" scope="request" type="mysite.vo.PostVo"/>
 
 <c:choose>
     <c:when test='<%=session.getAttribute("authUser") != null %>'>

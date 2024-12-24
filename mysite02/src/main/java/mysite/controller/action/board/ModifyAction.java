@@ -8,7 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
 import mysite.dao.BoardDao;
-import mysite.vo.BoardVo;
+import mysite.vo.PostVo;
 public class ModifyAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -20,7 +20,7 @@ public class ModifyAction implements Action {
         }
 
         BoardDao dao = new BoardDao();
-        BoardVo vo = dao.findById(Long.parseLong(postIdParam));
+        PostVo vo = dao.findById(Long.parseLong(postIdParam));
         req.setAttribute("post", vo);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/modify.jsp");

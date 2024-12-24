@@ -1,7 +1,6 @@
 package mysite.controller.action.board;
 
 import java.io.IOException;
-import java.util.List;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
@@ -19,9 +18,11 @@ public class ListAction implements Action {
         int postsCountPerPage = 5;
         BoardDao dao = new BoardDao();
 
-        List<BoardVo> list = dao.findAll(page, postsCountPerPage);
-        req.setAttribute("list", list);
+        BoardVo board = dao.findAll(page, postsCountPerPage);
+        req.setAttribute("list", board.getPosts());
         req.setAttribute("postsCountPerPage", postsCountPerPage);
+        req.setAttribute("totalCount", board.getTotalCount());
+        req.setAttribute("currentPage", page);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
         dispatcher.forward(req, res);
