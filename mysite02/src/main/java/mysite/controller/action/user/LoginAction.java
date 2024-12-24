@@ -12,30 +12,33 @@ import mysite.dao.UserDao;
 import mysite.vo.UserVo;
 
 public class LoginAction implements Action {
+    private void failLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        req.setAttribute("result", "fail");
+        RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp");
+        rd.forward(req, res);
+    }
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+
+        if (email == null || password == null) {
+            failLogin(req, res);
+            return;
+        }
 
         UserVo vo = new UserDao().findByEmailAndPassword(email, password);
 
-        System.out.println(vo);
-
-        // 로그인 실패
         if (vo == null) {
-            request.setAttribute("result", "fail");
-            request.setAttribute("email", email);
-            RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp");
-            rd.forward(request, response);
-
+            failLogin(req, res);
             return;
         }
 
         // 로그인 처리
-        HttpSession session = request.getSession(true);
+        HttpSession session = req.getSession(true);
         session.setAttribute("authUser", vo);
 
-        response.sendRedirect(request.getContextPath());
+        res.sendRedirect(req.getContextPath());
     }
 }

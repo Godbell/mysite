@@ -15,7 +15,7 @@ public class UpdateAction implements Action {
 
         UserVo vo = (UserVo)req.getSession().getAttribute("authUser");
         if (vo == null) {
-            res.sendRedirect(req.getContextPath());
+            (new LoginFormAction()).execute(req, res);
             return;
         }
 

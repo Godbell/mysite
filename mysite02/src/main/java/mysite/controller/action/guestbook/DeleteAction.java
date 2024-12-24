@@ -10,12 +10,29 @@ import mysite.dao.GuestBookDao;
 public class DeleteAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        Long id = Long.parseLong(req.getParameter("id"));
+        String idParam = req.getParameter("id");
+        if (idParam == null || idParam.isEmpty()) {
+            res.sendError(400);
+            return;
+        }
+
         String password = req.getParameter("password");
+
+        if (password == null || password.isEmpty()) {
+            res.sendError(400);
+            return;
+        }
 
         GuestBookDao dao = new GuestBookDao();
 
-        dao.deleteByIdAndPassword(id, password);
+        try {
+            Long id = Long.parseLong(idParam);
+            dao.deleteByIdAndPassword(id, password);
+        } catch (NumberFormatException e) {
+            res.sendError(400);
+            return;
+        }
+        
         res.sendRedirect(req.getContextPath() + "/guestbook");
     }
 }

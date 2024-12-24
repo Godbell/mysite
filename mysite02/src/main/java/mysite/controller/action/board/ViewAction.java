@@ -11,10 +11,23 @@ import mysite.dao.BoardDao;
 public class ViewAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
-        BoardDao dao = new BoardDao();
-        Long postId = Long.parseLong(req.getParameter("post_id"));
+        String postIdParam = req.getParameter("post_id");
 
-        req.setAttribute("post", dao.findById(postId));
+        if (postIdParam == null || postIdParam.isEmpty()) {
+            res.sendError(400);
+            return;
+        }
+
+        BoardDao dao = new BoardDao();
+
+        try {
+            Long postId = Long.parseLong(postIdParam);
+            req.setAttribute("post", dao.findById(postId));
+        } catch (NumberFormatException e) {
+            res.sendError(400);
+            return;
+        }
+
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/view.jsp");
         dispatcher.forward(req, res);
     }

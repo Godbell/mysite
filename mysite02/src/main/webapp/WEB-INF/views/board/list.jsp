@@ -155,7 +155,8 @@
             boardData.currentPage > maxPage - Math.ceil(boardData.pageHrefsCountPerPage / 2)
         ) {
             startIndex = maxPage - boardData.pageHrefsCountPerPage + 1;
-            endIndex = maxPage;
+            startIndex = startIndex > 0 ? startIndex : 1;
+            endIndex = maxPage < boardData.pageHrefsCountPerPage ? 5 : maxPage;
         } else {
             startIndex = boardData.currentPage - 2;
             endIndex = boardData.currentPage + 2;

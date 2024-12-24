@@ -12,11 +12,20 @@ import mysite.vo.UserVo;
 public class JoinAction implements Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String password = request.getParameter("password");
-        String gender = request.getParameter("gender");
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        String name = req.getParameter("name");
+        String email = req.getParameter("email");
+        String password = req.getParameter("password");
+        String gender = req.getParameter("gender");
+
+        if (name == null || name.isEmpty()
+            || email == null || email.isEmpty()
+            || password == null || password.isEmpty()
+            || gender == null || gender.isEmpty()
+        ) {
+            res.sendError(400);
+            return;
+        }
 
         UserVo vo = new UserVo();
         vo.setName(name);
@@ -26,6 +35,6 @@ public class JoinAction implements Action {
 
         new UserDao().insert(vo);
 
-        response.sendRedirect(request.getContextPath() + "/user?a=joinsuccess");
+        res.sendRedirect(req.getContextPath() + "/user?a=joinsuccess");
     }
 }

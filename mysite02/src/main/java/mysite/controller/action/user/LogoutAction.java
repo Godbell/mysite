@@ -11,14 +11,14 @@ import mysite.Action;
 public class LogoutAction implements Action {
 
     @Override
-    public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        HttpSession session = request.getSession();
+    public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
+        HttpSession session = req.getSession();
 
         if (session != null) {
             session.removeAttribute("authUser");
             session.invalidate();
         }
 
-        response.sendRedirect(request.getContextPath());
+        res.sendRedirect(req.getContextPath());
     }
 }

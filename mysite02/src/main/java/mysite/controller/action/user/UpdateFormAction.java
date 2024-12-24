@@ -11,7 +11,6 @@ import mysite.Action;
 import mysite.vo.UserVo;
 
 public class UpdateFormAction implements Action {
-
     @Override
     public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();

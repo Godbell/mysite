@@ -14,14 +14,20 @@ public class ModifyAction implements Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         String postIdParam = req.getParameter("post_id");
 
-        if (postIdParam == null) {
-            res.sendRedirect(req.getContextPath());
+        if (postIdParam == null || postIdParam.isEmpty()) {
+            res.sendError(400);
             return;
         }
 
         BoardDao dao = new BoardDao();
-        PostVo vo = dao.findById(Long.parseLong(postIdParam));
-        req.setAttribute("post", vo);
+
+        try {
+            PostVo vo = dao.findById(Long.parseLong(postIdParam));
+            req.setAttribute("post", vo);
+        } catch (NumberFormatException e) {
+            res.sendError(400);
+            return;
+        }
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/modify.jsp");
         dispatcher.forward(req, res);

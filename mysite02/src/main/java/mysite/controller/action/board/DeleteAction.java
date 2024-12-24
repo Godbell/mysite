@@ -6,6 +6,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
+import mysite.controller.action.user.LoginFormAction;
 import mysite.dao.BoardDao;
 import mysite.vo.UserVo;
 public class DeleteAction implements Action {
@@ -14,17 +15,27 @@ public class DeleteAction implements Action {
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         UserVo authUser = (UserVo)req.getSession().getAttribute("authUser");
 
-        String postIdParam = req.getParameter("post_id");
-
         if (authUser == null) {
-            res.sendRedirect(req.getContextPath());
+            new LoginFormAction().execute(req, res);
             return;
         }
 
-        Long postId = Long.parseLong(postIdParam);
+        String postIdParam = req.getParameter("post_id");
 
-        BoardDao dao = new BoardDao();
-        dao.deleteById(postId, authUser.getId());
+        if (postIdParam == null) {
+            res.sendError(400);
+            return;
+        }
+
+        try {
+            Long postId = Long.parseLong(postIdParam);
+
+            BoardDao dao = new BoardDao();
+            dao.deleteById(postId, authUser.getId());
+        } catch (NumberFormatException e) {
+            res.sendError(400);
+            return;
+        }
 
         res.sendRedirect(req.getContextPath() + "/board?a=list");
     }
