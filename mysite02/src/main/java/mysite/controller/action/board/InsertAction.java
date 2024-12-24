@@ -15,7 +15,7 @@ public class InsertAction implements Action {
         UserVo authUser = (UserVo)req.getSession().getAttribute("authUser");
 
         if (authUser == null) {
-            /* HANDLE UNAUTHORIZED */
+            res.sendRedirect(req.getContextPath());
             return;
         }
 
@@ -23,6 +23,7 @@ public class InsertAction implements Action {
         vo.setUserId(authUser.getId());
         vo.setTitle(req.getParameter("title"));
         vo.setContents(req.getParameter("content"));
+        vo.setOrderNo(0);
 
         String parentPostIdParam = req.getParameter("parentPostId");
         BoardDao dao = new BoardDao();
@@ -33,6 +34,7 @@ public class InsertAction implements Action {
 
             vo.setDepth(parentVo.getDepth() + 1);
             vo.setGroupNo(parentVo.getGroupNo());
+            vo.setOrderNo(parentVo.getOrderNo() + 1);
         }
 
         BoardVo inserted = dao.insert(vo);

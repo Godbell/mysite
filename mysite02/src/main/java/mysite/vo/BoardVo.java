@@ -7,6 +7,7 @@ public class BoardVo {
     private int hit;
     private String regDate;
     private Integer groupNo;
+    private Integer orderNo;
     private Integer depth;
     private Long userId;
     private String username;
@@ -81,5 +82,13 @@ public class BoardVo {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getOrderNo() {
+        return orderNo;
+    }
+
+    public void setOrderNo(Integer orderNo) {
+        this.orderNo = orderNo;
     }
 }
