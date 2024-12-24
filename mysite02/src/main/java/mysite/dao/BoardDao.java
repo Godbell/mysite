@@ -16,9 +16,13 @@ public class BoardDao {
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
-                """
+                """ 
                     SELECT
-                        board.id, title, hit, g_no, depth, user_id,
+                        board.id,
+                        title, hit, g_no, depth, user_id,
+                        (SELECT COUNT(*) FROM board)
+                        - (ROW_NUMBER() over (ORDER BY g_no DESC, o_no) - 1)
+                        AS board_index,
                         DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s') AS reg_date_formatted,
                         name AS "username", o_no
                     FROM board
@@ -28,7 +32,7 @@ public class BoardDao {
                     """
             )
         ) {
-            preparedStatement.setInt(1, page - 1);
+            preparedStatement.setInt(1, (page - 1) * postsCountPerPage);
             preparedStatement.setInt(2, postsCountPerPage);
 
             ResultSet resultSet = preparedStatement.executeQuery();
@@ -44,6 +48,7 @@ public class BoardDao {
                 vo.setUserId(resultSet.getLong("user_id"));
                 vo.setUsername(resultSet.getString("username"));
                 vo.setOrderNo(resultSet.getInt("o_no"));
+                vo.setBoardIndex(resultSet.getInt("board_index"));
 
                 result.add(vo);
             }

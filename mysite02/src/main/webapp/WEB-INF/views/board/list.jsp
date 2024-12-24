@@ -72,6 +72,7 @@
         <c:forEach var="post" items="${list}" varStatus="status">
         {
             id: ${post.id},
+            index: ${post.boardIndex},
             title: '${post.title}',
             userId: ${post.userId},
             username: '${post.username}',
@@ -91,7 +92,7 @@
             const tr = document.createElement('tr');
 
             const idColumn = document.createElement('td');
-            idColumn.innerHTML = post.id;
+            idColumn.innerHTML = post.index;
             tr.appendChild(idColumn);
 
             const titleColumn = document.createElement('td');
@@ -123,7 +124,7 @@
             deleteButton.className = 'del';
             deleteButton.innerHTML = '삭제';
             if (userId === post.userId) {
-                deleteButton.href = '${path}/board?a=delete&id=' + post.id;
+                deleteButton.href = '${path}/board?a=delete&post_id=' + post.id;
             } else {
                 deleteButton.style.opacity = '0';
             }

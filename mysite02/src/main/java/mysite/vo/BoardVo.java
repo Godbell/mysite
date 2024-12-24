@@ -11,6 +11,7 @@ public class BoardVo {
     private Integer depth;
     private Long userId;
     private String username;
+    private Integer boardIndex;
 
     public Long getId() {
         return id;
@@ -90,5 +91,13 @@ public class BoardVo {
 
     public void setOrderNo(Integer orderNo) {
         this.orderNo = orderNo;
+    }
+
+    public Integer getBoardIndex() {
+        return boardIndex;
+    }
+
+    public void setBoardIndex(Integer boardIndex) {
+        this.boardIndex = boardIndex;
     }
 }
