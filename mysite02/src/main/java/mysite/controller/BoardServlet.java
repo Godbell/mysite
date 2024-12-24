@@ -9,6 +9,7 @@ import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
+import mysite.controller.action.board.DeleteAction;
 import mysite.controller.action.board.InsertAction;
 import mysite.controller.action.board.ListAction;
 import mysite.controller.action.board.ModifyAction;
@@ -24,7 +25,8 @@ public class BoardServlet extends ActionServlet {
         "write", new WriteAction(),
         "insert", new InsertAction(),
         "modify", new ModifyAction(),
-        "update", new UpdateAction()
+        "update", new UpdateAction(),
+        "delete", new DeleteAction()
     );
 
     @Override

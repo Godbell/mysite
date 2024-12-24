@@ -197,4 +197,21 @@ public class BoardDao {
             System.out.println("sql error: " + e);
         }
     }
+
+    public void deleteById(Long postId, Long userId) {
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                DELETE FROM board
+                WHERE id=? AND user_id = ?;
+                """
+            )
+        ) {
+            preparedStatement.setLong(1, postId);
+            preparedStatement.setLong(2, userId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+    }
 }
