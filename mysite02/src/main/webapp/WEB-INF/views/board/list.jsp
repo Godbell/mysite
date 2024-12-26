@@ -186,7 +186,7 @@
         const nextPageButtonContainer = document.createElement('li');
         const nextPageButton = document.createElement('a');
         nextPageButton.textContent = '▶';
-        nextPageButton.href = boardData.currentPage < boardData.totalCount / boardData.currentPage
+        nextPageButton.href = boardData.currentPage < maxPage
             ? `${path}/board?a=list&page=\${boardData.currentPage + 1}${q == null ? "" : ("&q=".concat(q))}`
             : '';
         nextPageButtonContainer.appendChild(nextPageButton);
