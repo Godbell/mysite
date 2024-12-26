@@ -16,13 +16,15 @@ public class ListAction implements Action {
         String pageParameter = req.getParameter("page");
         int page = pageParameter == null ? 1 : Integer.parseInt(pageParameter);
         int postsCountPerPage = 5;
+        String searchKeywordParameter = req.getParameter("q");
 
         BoardDao dao = new BoardDao();
-        BoardVo boardVo = dao.findAll(page, postsCountPerPage);
+        BoardVo boardVo = dao.findAll(page, postsCountPerPage, searchKeywordParameter);
         req.setAttribute("list", boardVo.getPosts());
         req.setAttribute("postsCountPerPage", postsCountPerPage);
         req.setAttribute("totalCount", boardVo.getTotalCount());
         req.setAttribute("currentPage", page);
+        req.setAttribute("q", searchKeywordParameter);
 
         RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/board/list.jsp");
         dispatcher.forward(req, res);

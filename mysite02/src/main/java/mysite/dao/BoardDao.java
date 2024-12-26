@@ -11,34 +11,49 @@ import java.util.List;
 import mysite.vo.BoardVo;
 import mysite.vo.PostVo;
 public class BoardDao {
-    public BoardVo findAll(int page, int postsCountPerPage) {
+    public BoardVo findAll(int page, int postsCountPerPage, String searchKeyword) {
         BoardVo resultVo = new BoardVo();
         List<PostVo> posts = new ArrayList<>();
+
+        String sql = """
+            WITH b AS (
+                SELECT board.id AS "id",
+                    title, hit, g_no, depth, user_id,
+                    DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s') AS reg_date_formatted,
+                    name AS "username", o_no,
+                    (SELECT COUNT(*) FROM board)
+                        - (ROW_NUMBER() over (ORDER BY board.g_no DESC, board.o_no) - 1)
+                        AS board_index
+                FROM board
+                LEFT JOIN webdb.user u ON board.user_id = u.id
+                WHERE title LIKE ?
+                ORDER BY g_no DESC, o_no
+            )
+                        
+            """;
 
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement selectStatement = connection.prepareStatement(
-                """ 
+                sql + """                   
                     SELECT
-                        board.id,
-                        title, hit, g_no, depth, user_id,
-                        (SELECT COUNT(*) FROM board)
-                        - (ROW_NUMBER() over (ORDER BY g_no DESC, o_no) - 1)
-                        AS board_index,
-                        DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s') AS reg_date_formatted,
-                        name AS "username", o_no
-                    FROM board
-                    LEFT JOIN webdb.user u ON board.user_id = u.id
-                    ORDER BY g_no DESC, o_no
+                        id, title, hit, g_no, depth, user_id, reg_date_formatted,
+                        username, o_no, board_index
+                    FROM b
                     LIMIT ?, ?;
                     """
             );
             PreparedStatement totalCountStatement = connection.prepareStatement(
-                "SELECT COUNT(*) AS total_count FROM board"
+                sql + """
+                    SELECT COUNT(*) AS total_count FROM b
+                    """
             )
         ) {
-            selectStatement.setInt(1, (page - 1) * postsCountPerPage);
-            selectStatement.setInt(2, postsCountPerPage);
+            String like = "%" + (searchKeyword == null ? "" : searchKeyword) + "%";
+
+            selectStatement.setString(1, like);
+            selectStatement.setInt(2, (page - 1) * postsCountPerPage);
+            selectStatement.setInt(3, postsCountPerPage);
 
             ResultSet resultSet = selectStatement.executeQuery();
 
@@ -59,6 +74,7 @@ public class BoardDao {
             }
             resultVo.setPosts(posts);
 
+            totalCountStatement.setString(1, like);
             ResultSet countResultSet = totalCountStatement.executeQuery();
             countResultSet.next();
             resultVo.setTotalCount(countResultSet.getInt("total_count"));

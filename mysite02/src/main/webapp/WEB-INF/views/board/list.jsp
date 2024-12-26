@@ -13,6 +13,10 @@
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
 
+<c:if test='<%=request.getAttribute("q") != null || request.getParameter("q") != null %>'>
+    <jsp:useBean id="q" scope="request" type="java.lang.String"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -25,8 +29,9 @@
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="board">
-            <form id="search_form" action="" method="post">
-                <input type="text" id="kwd" name="kwd" value="">
+            <form id="search_form" action="${path}/board" method="post">
+                <input type="hidden" name="a" value="list">
+                <input type="text" id="kwd" name="q" value="">
                 <input type="submit" value="찾기">
             </form>
             <table id="board_list" class="tbl-ex">
@@ -139,7 +144,7 @@
         const lastPageButton = document.createElement('a');
         lastPageButton.textContent = '◀';
         lastPageButton.href = boardData.currentPage > 1
-            ? `${path}/board?a=list&page=' + \${boardData.currentPage - 1}`
+            ? `${path}/board?a=list&page=\${boardData.currentPage - 1}${q == null ? "" : "&q=".concat(q)}`
             : '';
         lastPageButtonContainer.appendChild(lastPageButton);
         pager.appendChild(lastPageButtonContainer);
@@ -168,7 +173,7 @@
 
             if (page <= maxPage) {
                 const pageHref = document.createElement('a');
-                pageHref.href = '${path}/board?a=list&page=' + page;
+                pageHref.href = `${path}/board?a=list&page=\${page}${q == null ? "" : "&q=".concat(q)}`;
                 pageHref.textContent = `\${page}`
                 pageHrefContainer.appendChild(pageHref);
             } else {
@@ -182,7 +187,7 @@
         const nextPageButton = document.createElement('a');
         nextPageButton.textContent = '▶';
         nextPageButton.href = boardData.currentPage < boardData.totalCount / boardData.currentPage
-            ? `${path}/board?a=list&page=\${boardData.currentPage + 1}`
+            ? `${path}/board?a=list&page=\${boardData.currentPage + 1}${q == null ? "" : ("&q=".concat(q))}`
             : '';
         nextPageButtonContainer.appendChild(nextPageButton);
         pager.appendChild(nextPageButtonContainer);
