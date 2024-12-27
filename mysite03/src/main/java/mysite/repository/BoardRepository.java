@@ -96,6 +96,36 @@ public class BoardRepository {
         return resultVo;
     }
 
+    public PostVo findByIdAndUserId(Long id, Long userId) {
+        PostVo result = null;
+
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                """
+                    SELECT board.id, title, contents
+                    FROM board
+                    LEFT JOIN webdb.user u ON board.user_id = u.id
+                    WHERE board.id = ?;
+                    """
+            )
+        ) {
+            preparedStatement.setLong(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                result = new PostVo();
+                result.setId(id);
+                result.setTitle(resultSet.getString("title"));
+                result.setContents(resultSet.getString("contents"));
+            }
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+
+        return result;
+    }
+
     public PostVo findById(Long id) {
         PostVo result = null;
 
@@ -174,7 +204,7 @@ public class BoardRepository {
                 if (isReply) {
                     // update indices only if reply, new post will be just appended
                     indexUpdateStatement.setInt(1, parentPostVo.getGroupNo());
-                    indexUpdateStatement.setInt(2, parentPostVo.getOrderNo());
+                    indexUpdateStatement.setInt(2, parentPostVo.getOrderNo() + 1);
                     indexUpdateStatement.executeUpdate();
                 }
 
