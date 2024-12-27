@@ -37,4 +37,8 @@ public class BoardService {
     public BoardVo getBoard(Integer page, String keyword) {
         return boardRepository.findAll(page, 5, keyword);
     }
+
+    public void increasePostHit(Long postId) {
+        boardRepository.increaseHitByPostId(postId);
+    }
 }

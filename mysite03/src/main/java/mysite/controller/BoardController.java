@@ -70,6 +70,7 @@ public class BoardController {
             return "redirect:/board";
         }
 
+        boardService.increasePostHit(postId);
         model.addAttribute("post", vo);
         return "board/view";
     }
