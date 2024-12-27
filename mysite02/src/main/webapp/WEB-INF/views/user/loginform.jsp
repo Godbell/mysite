@@ -2,11 +2,13 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
-<%@page import="java.util.Optional" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
 <c:set var="result" value='<%=request.getAttribute("result") %>'/>
+<c:if test='<%=request.getAttribute("email") != null %>'>
+    <jsp:useBean id="email" type="java.lang.String" scope="request"/>
+</c:if>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -24,7 +26,7 @@
                 <input type="hidden" name="a" value="login">
                 <label class="block-label" for="email">이메일</label>
                 <input id="email" name="email" type="text"
-                       value="<%=Optional.ofNullable(request.getAttribute("email")).orElse("") %>">
+                       value="${email}">
                 <label class="block-label">패스워드</label>
                 <input name="password" type="password" value="">
                 <c:if test="${'fail'.equals(result)}">

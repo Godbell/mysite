@@ -2,12 +2,9 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 
-<%@ page import="mysite.vo.UserVo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<%
-    UserVo authUser = (UserVo)session.getAttribute("authUser");
-%>
+<jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -48,8 +45,8 @@
 </div>
 </body>
 <script>
-    document.getElementById("email").innerHTML = "<%=authUser.getEmail() %>"
-    document.getElementById("gender-<%=authUser.getGender()%>").checked = "checked";
-    document.getElementById("name").value = "<%=authUser.getName() %>";
+    document.getElementById("email").innerHTML = "${authUser.email}"
+    document.getElementById("gender-${authUser.gender}").checked = "checked";
+    document.getElementById("name").value = "${authUser.name}";
 </script>
 </html>

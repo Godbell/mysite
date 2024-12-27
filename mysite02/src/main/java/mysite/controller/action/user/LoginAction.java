@@ -14,6 +14,7 @@ import mysite.vo.UserVo;
 public class LoginAction implements Action {
     private void failLogin(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
         req.setAttribute("result", "fail");
+        req.setAttribute("email", req.getParameter("email"));
         RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/views/user/loginform.jsp");
         rd.forward(req, res);
     }
