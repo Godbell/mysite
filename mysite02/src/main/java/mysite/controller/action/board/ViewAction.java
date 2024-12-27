@@ -23,6 +23,7 @@ public class ViewAction implements Action {
         try {
             Long postId = Long.parseLong(postIdParam);
             req.setAttribute("post", dao.findById(postId));
+            dao.increaseHitByPostId(postId);
         } catch (NumberFormatException e) {
             res.sendError(400);
             return;

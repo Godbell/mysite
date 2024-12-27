@@ -230,4 +230,20 @@ public class BoardDao {
             System.out.println("sql error: " + e);
         }
     }
+
+    public void increaseHitByPostId(Long postId) {
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement("""
+                UPDATE board SET hit = hit + 1
+                WHERE id = ?;
+                """
+            )
+        ) {
+            preparedStatement.setLong(1, postId);
+            preparedStatement.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+    }
 }
