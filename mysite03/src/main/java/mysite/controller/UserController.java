@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import jakarta.servlet.http.HttpSession;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -34,7 +35,7 @@ public class UserController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(UserVo userVo, Model model) {
+    public String login(UserVo userVo, Model model, HttpSession session) {
         UserVo authUser = userService.getUser(userVo.getEmail(), userVo.getPassword());
 
         if (authUser == null) {
@@ -43,6 +44,7 @@ public class UserController {
             return "user/loginform";
         }
 
+        session.setAttribute("authUser", authUser);
         return "redirect:/";
     }
 }
