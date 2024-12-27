@@ -7,8 +7,10 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.Action;
+import mysite.controller.action.user.LoginFormAction;
 import mysite.dao.BoardDao;
 import mysite.vo.PostVo;
+import mysite.vo.UserVo;
 public class ModifyAction implements Action {
     @Override
     public void execute(HttpServletRequest req, HttpServletResponse res) throws ServletException, IOException {
@@ -19,10 +21,16 @@ public class ModifyAction implements Action {
             return;
         }
 
+        UserVo authUser = (UserVo)req.getSession().getAttribute("authUser");
+        if (authUser == null) {
+            new LoginFormAction().execute(req, res);
+            return;
+        }
+
         BoardDao dao = new BoardDao();
 
         try {
-            PostVo vo = dao.findById(Long.parseLong(postIdParam));
+            PostVo vo = dao.findByIdAndUserId(Long.parseLong(postIdParam), authUser.getId());
             req.setAttribute("post", vo);
         } catch (NumberFormatException e) {
             res.sendError(400);

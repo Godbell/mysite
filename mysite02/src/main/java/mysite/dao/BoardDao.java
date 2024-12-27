@@ -124,6 +124,37 @@ public class BoardDao {
         return result;
     }
 
+    public PostVo findByIdAndUserId(Long id, Long userId) {
+        PostVo result = null;
+
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement preparedStatement = connection.prepareStatement(
+                """
+                    SELECT board.id, title, contents
+                    FROM board
+                    LEFT JOIN webdb.user u ON board.user_id = u.id
+                    WHERE board.id = ? AND user_id = ?;
+                    """
+            )
+        ) {
+            preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, userId);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                result = new PostVo();
+                result.setId(id);
+                result.setTitle(resultSet.getString("title"));
+                result.setContents(resultSet.getString("contents"));
+            }
+        } catch (SQLException e) {
+            System.out.println("sql error: " + e);
+        }
+
+        return result;
+    }
+
     public PostVo insert(PostVo vo) {
         boolean isReply = vo.getGroupNo() != null && vo.getDepth() != null && vo.getOrderNo() != null;
 
