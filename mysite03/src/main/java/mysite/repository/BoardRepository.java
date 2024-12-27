@@ -136,23 +136,16 @@ public class BoardRepository {
     }
 
     public PostVo insert(PostVo vo) {
-        boolean isReply = vo.getGroupNo() != null && vo.getDepth() != null && vo.getOrderNo() != null;
+        boolean isReply = vo.getParentPostId() != null;
+        PostVo parentPostVo = isReply ? findById(vo.getParentPostId()) : null;
+
+        if (isReply && parentPostVo == null) {
+            System.out.println("invalid parent post");
+            return null;
+        }
 
         try (
             Connection connection = DataSource.getConnection();
-            PreparedStatement insertStatement = connection.prepareStatement(
-                String.format("""
-                        INSERT INTO board
-                            (title, contents, user_id, o_no, g_no, depth)
-                        SELECT ?, ?, ?, ?, %s, %s
-                        FROM board
-                        LIMIT 0, 1;
-                        """,
-                    isReply ? "?" : "MAX(g_no) + 1",
-                    isReply ? "?" : "0"
-                ),
-                Statement.RETURN_GENERATED_KEYS
-            );
             PreparedStatement indexUpdateStatement = connection.prepareStatement("""
                 UPDATE board
                     SET o_no = o_no + 1
@@ -160,14 +153,28 @@ public class BoardRepository {
                     AND o_no >= ?;
                 """
             );
+            PreparedStatement insertStatement = connection.prepareStatement(
+                String.format("""
+                        INSERT INTO board
+                            (title, contents, user_id, o_no, g_no, depth)
+                        SELECT ?, ?, ?, %s, %s, %s
+                        FROM board
+                        LIMIT 0, 1;
+                        """,
+                    isReply ? "?" : "0",
+                    isReply ? "?" : "MAX(g_no) + 1",
+                    isReply ? "?" : "0"
+                ),
+                Statement.RETURN_GENERATED_KEYS
+            );
         ) {
             connection.setAutoCommit(false);
 
             try {
                 if (isReply) {
                     // update indices only if reply, new post will be just appended
-                    indexUpdateStatement.setInt(1, vo.getGroupNo());
-                    indexUpdateStatement.setInt(2, vo.getOrderNo());
+                    indexUpdateStatement.setInt(1, parentPostVo.getGroupNo());
+                    indexUpdateStatement.setInt(2, parentPostVo.getOrderNo());
                     indexUpdateStatement.executeUpdate();
                 }
 
@@ -175,11 +182,11 @@ public class BoardRepository {
                 insertStatement.setString(1, vo.getTitle());
                 insertStatement.setString(2, vo.getContents());
                 insertStatement.setLong(3, vo.getUserId());
-                insertStatement.setInt(4, vo.getOrderNo());
 
                 if (isReply) {
-                    insertStatement.setInt(5, vo.getGroupNo());
-                    insertStatement.setInt(6, vo.getDepth());
+                    insertStatement.setInt(4, parentPostVo.getOrderNo() + 1);
+                    insertStatement.setInt(5, parentPostVo.getGroupNo());
+                    insertStatement.setInt(6, parentPostVo.getDepth() + 1);
                 }
 
                 insertStatement.executeUpdate();

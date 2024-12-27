@@ -12,6 +12,7 @@ public class PostVo {
     private Long userId;
     private String username;
     private Integer boardIndex;
+    private Long parentPostId;
 
     public Long getId() {
         return id;
@@ -99,5 +100,13 @@ public class PostVo {
 
     public void setBoardIndex(Integer boardIndex) {
         this.boardIndex = boardIndex;
+    }
+
+    public Long getParentPostId() {
+        return parentPostId;
+    }
+
+    public void setParentPostId(Long parentPostId) {
+        this.parentPostId = parentPostId;
     }
 }

@@ -49,7 +49,7 @@
 
             <div class="bottom">
                 <c:if test='${!empty pageContext.session.getAttribute("authUser")}'>
-                    <a href="${path}/board?a=write" id="new-book">글쓰기</a>
+                    <a href="${path}/board/add" id="new-book">글쓰기</a>
                 </c:if>
             </div>
         </div>
@@ -97,7 +97,7 @@
             const titleColumn = document.createElement('td');
             titleColumn.className = 'title-area';
             const title = document.createElement('a');
-            title.href = '${path}/board?a=view&post_id=' + post.id;
+            title.href = '${path}/board/' + post.id;
             for (let i = 0; i < post.depth; ++i) {
                 title.innerHTML += '⎿';
             }
@@ -123,7 +123,7 @@
             deleteButton.className = 'del';
             deleteButton.innerHTML = '삭제';
             if (userId === post.userId) {
-                deleteButton.href = '${path}/board?a=delete&post_id=' + post.id;
+                deleteButton.href = '${path}/board/delete/' + post.id;
             } else {
                 deleteButton.style.opacity = '0';
             }
@@ -143,7 +143,7 @@
         const lastPageButton = document.createElement('a');
         lastPageButton.textContent = '◀';
         lastPageButton.href = boardData.currentPage > 1
-            ? `${path}/board?a=list&page=\${boardData.currentPage - 1}${q == null ? "" : "&q=".concat(q)}`
+            ? `${path}/board?page=\${boardData.currentPage - 1}${q == null ? "" : "&q=".concat(q)}`
             : '';
         lastPageButtonContainer.appendChild(lastPageButton);
         pager.appendChild(lastPageButtonContainer);
@@ -172,7 +172,7 @@
 
             if (page <= maxPage) {
                 const pageHref = document.createElement('a');
-                pageHref.href = `${path}/board?a=list&page=\${page}${q == null ? "" : "&q=".concat(q)}`;
+                pageHref.href = `${path}/board?page=\${page}${q == null ? "" : "&q=".concat(q)}`;
                 pageHref.textContent = `\${page}`
                 pageHrefContainer.appendChild(pageHref);
             } else {
@@ -186,7 +186,7 @@
         const nextPageButton = document.createElement('a');
         nextPageButton.textContent = '▶';
         nextPageButton.href = boardData.currentPage < maxPage
-            ? `${path}/board?a=list&page=\${boardData.currentPage + 1}${q == null ? "" : ("&q=".concat(q))}`
+            ? `${path}/board?page=\${boardData.currentPage + 1}${q == null ? "" : ("&q=".concat(q))}`
             : '';
         nextPageButtonContainer.appendChild(nextPageButton);
         pager.appendChild(nextPageButtonContainer);

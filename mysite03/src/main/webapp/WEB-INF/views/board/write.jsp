@@ -17,8 +17,7 @@
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="board">
-            <form class="board-form" method="post" action="${path}/board?a=insert">
-                <input type="hidden" name="a" value="write">
+            <form class="board-form" method="post" action="${path}/board/add">
                 <c:if test='${!(empty pageContext.request.getParameter("parent_post_id"))}'>
                     <c:set var="parentPostId" value='${pageContext.request.getParameter("parent_post_id")}'/>
                     <input type="hidden" name="parentPostId" value="${parentPostId}">
@@ -34,7 +33,7 @@
                     <tr>
                         <td class="label">내용</td>
                         <td>
-                            <textarea id="content" name="content"></textarea>
+                            <textarea id="content" name="contents"></textarea>
                         </td>
                     </tr>
                 </table>
