@@ -89,4 +89,36 @@ public class UserRepository {
             System.out.println("sql error: " + e);
         }
     }
+
+    public UserVo findById(Long id) {
+        UserVo userVo = null;
+
+        try (
+            Connection connection = DataSource.getConnection();
+            PreparedStatement pstmt = connection.prepareStatement(
+                """
+                        SELECT id, name, gender, join_date
+                        FROM user
+                        WHERE id = ?
+                    """
+            );
+        ) {
+            pstmt.setLong(1, id);
+
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                userVo = new UserVo();
+                userVo.setId(rs.getLong("id"));
+                userVo.setName(rs.getString("name"));
+                userVo.setGender(rs.getString("gender"));
+                userVo.setJoinDate(rs.getString("join_date"));
+            }
+
+            rs.close();
+        } catch (SQLException e) {
+            System.out.println("error:" + e);
+        }
+
+        return userVo;
+    }
 }

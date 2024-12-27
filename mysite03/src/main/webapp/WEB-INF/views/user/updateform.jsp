@@ -22,8 +22,7 @@
     <div id="content">
         <div id="user">
 
-            <form id="update-form" name="updateForm" method="post" action="${path}/user">
-                <input type='hidden' name="a" value="update">
+            <form id="update-form" name="updateForm" method="post" action="${path}/user/update">
                 <label class="block-label" for="name">이름</label>
                 <input id="name" name="name" type="text">
 

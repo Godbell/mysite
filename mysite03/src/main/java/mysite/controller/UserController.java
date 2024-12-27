@@ -52,7 +52,36 @@ public class UserController {
     public String logout(HttpSession session) {
         session.removeAttribute("authUser");
         session.invalidate();
-        
+
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.GET)
+    public String viewUpdate(HttpSession session, Model model) {
+        UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+        if (authUser == null) {
+            return "redirect:/user/login";
+        }
+
+        model.addAttribute("authUser", userService.getUser(authUser.getId()));
+        return "user/updateform";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String update(HttpSession session, UserVo vo) {
+        UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+        if (authUser == null) {
+            return "redirect:/user/login";
+        }
+
+        vo.setId(authUser.getId());
+        userService.update(vo);
+
+        authUser.setName(vo.getName());
+        authUser.setGender(vo.getGender());
+
+        return "user/updateform";
     }
 }
