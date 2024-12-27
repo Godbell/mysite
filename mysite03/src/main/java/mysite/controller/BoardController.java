@@ -105,4 +105,16 @@ public class BoardController {
 
         return "redirect:/board/" + postVo.getId();
     }
+
+    @RequestMapping(value = "/delete/{postId}", method = RequestMethod.GET)
+    public String deletePost(@PathVariable("postId") Long postId, HttpSession session) {
+        UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+        if (authUser == null) {
+            return "redirect:/user/loginform";
+        }
+
+        boardService.deletePost(postId, authUser.getId());
+        return "redirect:/board";
+    }
 }
