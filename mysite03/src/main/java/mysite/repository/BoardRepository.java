@@ -106,11 +106,12 @@ public class BoardRepository {
                     SELECT board.id, title, contents
                     FROM board
                     LEFT JOIN webdb.user u ON board.user_id = u.id
-                    WHERE board.id = ?;
+                    WHERE board.id = ? AND user_id = ?;
                     """
             )
         ) {
             preparedStatement.setLong(1, id);
+            preparedStatement.setLong(2, userId);
             ResultSet resultSet = preparedStatement.executeQuery();
 
             if (resultSet.next()) {
@@ -240,7 +241,7 @@ public class BoardRepository {
         return vo;
     }
 
-    public void update(PostVo vo, Long userId) {
+    public void update(PostVo vo) {
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement("""
@@ -254,7 +255,7 @@ public class BoardRepository {
             preparedStatement.setString(1, vo.getTitle());
             preparedStatement.setString(2, vo.getContents());
             preparedStatement.setLong(3, vo.getId());
-            preparedStatement.setLong(4, userId);
+            preparedStatement.setLong(4, vo.getUserId());
 
             preparedStatement.executeUpdate();
         } catch (SQLException e) {

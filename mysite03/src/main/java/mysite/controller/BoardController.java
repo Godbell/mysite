@@ -73,4 +73,36 @@ public class BoardController {
         model.addAttribute("post", vo);
         return "board/view";
     }
+
+    @RequestMapping(value = "/update/{postId}", method = RequestMethod.GET)
+    public String viewUpdate(@PathVariable("postId") Long postId, Model model, HttpSession session) {
+        UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+        if (authUser == null) {
+            return "redirect:/board";
+        }
+
+        PostVo vo = boardService.getPost(postId, authUser.getId());
+
+        if (vo == null) {
+            return "redirect:/board";
+        }
+
+        model.addAttribute("post", vo);
+        return "board/modify";
+    }
+
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
+    public String viewUpdate(PostVo postVo, HttpSession session) {
+        UserVo authUser = (UserVo)session.getAttribute("authUser");
+
+        if (authUser == null) {
+            return "redirect:/board";
+        }
+
+        postVo.setUserId(authUser.getId());
+        boardService.updatePost(postVo);
+
+        return "redirect:/board/" + postVo.getId();
+    }
 }

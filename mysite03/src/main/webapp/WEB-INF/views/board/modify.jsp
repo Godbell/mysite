@@ -19,9 +19,8 @@
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="board">
-            <form class="board-form" method="post" action="${path}/board">
-                <input type="hidden" name="a" value="update">
-                <input type="hidden" name="postId" value="${post.id}">
+            <form class="board-form" method="post" action="${path}/board/update">
+                <input type="hidden" name="id" value="${post.id}">
                 <table class="tbl-ex">
                     <tr>
                         <th colspan="2">글수정</th>
@@ -35,12 +34,12 @@
                     <tr>
                         <td class="label">내용</td>
                         <td>
-                            <textarea id="content" name="content">${post.contents}</textarea>
+                            <textarea id="content" name="contents">${post.contents}</textarea>
                         </td>
                     </tr>
                 </table>
                 <div class="bottom">
-                    <a href="${path}/board?a=view&post_id=${post.id}">취소</a>
+                    <a href="${path}/board/${post.id}">취소</a>
                     <input type="submit" value="수정">
                 </div>
             </form>
@@ -59,6 +58,6 @@
     }
 
     document.getElementsByName("title")[0].value = post.title;
-    document.getElementsByName("content")[0].textContent = post.contents;
+    document.getElementsByName("contents")[0].textContent = post.contents;
 </script>
 </html>

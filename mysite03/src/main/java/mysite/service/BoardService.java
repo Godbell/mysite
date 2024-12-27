@@ -22,8 +22,12 @@ public class BoardService {
         return boardRepository.findById(id);
     }
 
-    public void updatePost(PostVo vo, Long userId) {
-        boardRepository.update(vo, userId);
+    public PostVo getPost(Long id, Long userId) {
+        return boardRepository.findByIdAndUserId(id, userId);
+    }
+
+    public void updatePost(PostVo vo) {
+        boardRepository.update(vo);
     }
 
     public void deletePost(Long id, Long userId) {

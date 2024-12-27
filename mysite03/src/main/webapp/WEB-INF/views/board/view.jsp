@@ -45,7 +45,7 @@
                 <c:if test="${!(empty authUser)}">
                     <a href="${path}/board/add?parent_post_id=${post.id}">답글 달기</a>
                     <c:if test="${authUser.id == post.userId}">
-                        <a href="${path}/board/update?post_id=${post.id}">글수정</a>
+                        <a href="${path}/board/update/${post.id}">글수정</a>
                     </c:if>
                 </c:if>
             </div>
