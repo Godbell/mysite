@@ -49,7 +49,7 @@
 <script>
     const getGuestBookList = () => {
         return [
-            <jsp:useBean id="list" scope="request" type="java.util.List<mysite.vo.GuestBookVo>"/>
+            <jsp:useBean id="list" scope="request" type="java.util.List<mysite.vo.GuestbookVo>"/>
             <c:forEach var="vo" items="${list}" varStatus="status">
             {
                 id: ${vo.id},

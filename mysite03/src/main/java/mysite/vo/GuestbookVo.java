@@ -1,6 +1,6 @@
 package mysite.vo;
 
-public class GuestBookVo {
+public class GuestbookVo {
     private Long id;
     private String name;
     private String password;
@@ -50,6 +50,6 @@ public class GuestBookVo {
     @Override
     public String toString() {
         return "GuestBookVo [id=" + id + ", name=" + name + ", regDate=" + regDate + ", contents=" + contents
-            + "]";
+               + "]";
     }
 }

@@ -7,11 +7,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import mysite.vo.GuestBookVo;
+import org.springframework.stereotype.Repository;
 
-public class GuestBookDao {
-    public List<GuestBookVo> findAll() {
-        List<GuestBookVo> result = new ArrayList<>();
+import mysite.vo.GuestbookVo;
+
+@Repository
+public class GuestbookRepository {
+    public List<GuestbookVo> findAll() {
+        List<GuestbookVo> result = new ArrayList<>();
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
@@ -25,7 +28,7 @@ public class GuestBookDao {
             ResultSet resultSet = preparedStatement.executeQuery();
         ) {
             while (resultSet.next()) {
-                GuestBookVo vo = new GuestBookVo();
+                GuestbookVo vo = new GuestbookVo();
                 vo.setId(resultSet.getLong("id"));
                 vo.setName(resultSet.getString("name"));
                 vo.setRegDate(resultSet.getString("reg_date"));
@@ -40,7 +43,7 @@ public class GuestBookDao {
         return result;
     }
 
-    public void insert(GuestBookVo vo) {
+    public void insert(GuestbookVo vo) {
         try (
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
