@@ -8,11 +8,22 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import mysite.vo.BoardVo;
 import mysite.vo.PostVo;
-public class BoardDao {
-    public BoardVo findAll(int page, int postsCountPerPage, String searchKeyword) {
+
+@Repository
+public class BoardRepository {
+    public BoardVo findAll(Integer page, int postsCountPerPage, String searchKeyword) {
+        if (page == null) {
+            page = 1;
+        }
+
         BoardVo resultVo = new BoardVo();
+        resultVo.setPostsCountPerPage(postsCountPerPage);
+        resultVo.setCurrentPage(page);
+
         List<PostVo> posts = new ArrayList<>();
 
         String sql = """

@@ -30,7 +30,6 @@
     <div id="content">
         <div id="board">
             <form id="search_form" action="${path}/board" method="post">
-                <input type="hidden" name="a" value="list">
                 <input type="text" id="kwd" name="q" value="">
                 <input type="submit" value="찾기">
             </form>
