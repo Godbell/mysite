@@ -13,6 +13,10 @@
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
 
+<c:if test='<%=request.getAttribute("q") != null%>'>
+    <jsp:useBean id="q" scope="request" type="java.lang.String"/>
+</c:if>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>

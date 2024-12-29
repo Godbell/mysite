@@ -33,6 +33,7 @@ public class BoardController {
         model.addAttribute("postsCountPerPage", boardVo.getPostsCountPerPage());
         model.addAttribute("totalCount", boardVo.getTotalCount());
         model.addAttribute("currentPage", boardVo.getCurrentPage());
+        model.addAttribute("q", q);
 
         return "board/list";
     }
