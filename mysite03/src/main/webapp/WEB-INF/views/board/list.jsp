@@ -13,10 +13,6 @@
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
 
-<c:if test='<%=request.getAttribute("q") != null || request.getParameter("q") != null %>'>
-    <jsp:useBean id="q" scope="request" type="java.lang.String"/>
-</c:if>
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -29,7 +25,7 @@
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="board">
-            <form id="search_form" action="${path}/board" method="post">
+            <form id="search_form" action="${path}/board" method="get">
                 <input type="text" id="kwd" name="q" value="">
                 <input type="submit" value="찾기">
             </form>
