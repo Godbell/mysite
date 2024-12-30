@@ -8,9 +8,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import mysite.vo.UserVo;
 public class AuthInterceptor implements HandlerInterceptor {
     @Override
-    public boolean preHandle(
-        HttpServletRequest request, HttpServletResponse response, Object handler
-    ) throws Exception {
+    public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler)
+        throws Exception {
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -20,22 +19,26 @@ public class AuthInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod)handler;
         if (handlerMethod.getMethodAnnotation(Auth.class) != null) {
             auth = handlerMethod.getMethodAnnotation(Auth.class);
-        } else if (handlerMethod.getBeanType().getAnnotation(Auth.class) != null) {
+        }
+        if (handlerMethod.getBeanType().getAnnotation(Auth.class) != null) {
             auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
-        } else {
+        }
+        // if no @Auth annotated
+        if (auth == null) {
+            // run controller method
             return true;
         }
 
         String requiredRole = auth.role();
-        UserVo userVo = (UserVo)request.getSession().getAttribute("authUser");
+        UserVo userVo = (UserVo)req.getSession().getAttribute("authUser");
 
         if (userVo == null) {
-            response.sendRedirect(request.getContextPath() + "/user/login");
+            res.sendRedirect(req.getContextPath() + "/user/login");
             return false;
         }
 
         if (requiredRole.equals("ADMIN") && userVo.getRole().equals("USER")) {
-            response.sendRedirect(request.getContextPath() + "/");
+            res.sendRedirect(req.getContextPath() + "/");
             return false;
         }
 
