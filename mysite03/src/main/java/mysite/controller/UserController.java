@@ -5,8 +5,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import jakarta.servlet.http.HttpSession;
 import mysite.security.Auth;
+import mysite.security.AuthUser;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -42,17 +42,14 @@ public class UserController {
 
     @Auth
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String viewUpdate(HttpSession session, Model model) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
+    public String viewUpdate(@AuthUser UserVo authUser, Model model) {
         model.addAttribute("authUser", userService.getUser(authUser.getId()));
         return "user/updateform";
     }
 
     @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(HttpSession session, UserVo vo) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
+    public String update(@AuthUser UserVo authUser, UserVo vo) {
         vo.setId(authUser.getId());
         userService.update(vo);
 

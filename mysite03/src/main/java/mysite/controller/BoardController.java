@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import jakarta.servlet.http.HttpSession;
+import mysite.security.Auth;
+import mysite.security.AuthUser;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.PostVo;
@@ -38,25 +39,15 @@ public class BoardController {
         return "board/list";
     }
 
+    @Auth
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String viewCreatePost(HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/user/login";
-        }
-
+    public String viewCreatePost() {
         return "board/write";
     }
 
+    @Auth
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String createPost(PostVo vo, HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/user/login";
-        }
-
+    public String createPost(@AuthUser UserVo authUser, PostVo vo) {
         vo.setUserId(authUser.getId());
         Long uploadedPostId = boardService.addPost(vo);
 
@@ -76,14 +67,12 @@ public class BoardController {
         return "board/view";
     }
 
+    @Auth
     @RequestMapping(value = "/update/{postId}", method = RequestMethod.GET)
-    public String viewUpdate(@PathVariable("postId") Long postId, Model model, HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/board";
-        }
-
+    public String viewUpdate(
+        @AuthUser UserVo authUser,
+        @PathVariable("postId") Long postId, Model model
+    ) {
         PostVo vo = boardService.getPost(postId, authUser.getId());
 
         if (vo == null) {
@@ -94,28 +83,18 @@ public class BoardController {
         return "board/modify";
     }
 
+    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String viewUpdate(PostVo postVo, HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/board";
-        }
-
+    public String viewUpdate(@AuthUser UserVo authUser, PostVo postVo) {
         postVo.setUserId(authUser.getId());
         boardService.updatePost(postVo);
 
         return "redirect:/board/" + postVo.getId();
     }
 
+    @Auth
     @RequestMapping(value = "/delete/{postId}", method = RequestMethod.GET)
-    public String deletePost(@PathVariable("postId") Long postId, HttpSession session) {
-        UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/user/loginform";
-        }
-
+    public String deletePost(@AuthUser UserVo authUser, @PathVariable("postId") Long postId) {
         boardService.deletePost(postId, authUser.getId());
         return "redirect:/board";
     }
