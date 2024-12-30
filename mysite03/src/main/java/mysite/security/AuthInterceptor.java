@@ -6,15 +6,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import mysite.service.UserService;
 import mysite.vo.UserVo;
 public class AuthInterceptor implements HandlerInterceptor {
-    private final UserService userService;
-
-    private AuthInterceptor(UserService userService) {
-        this.userService = userService;
-    }
-
     @Override
     public boolean preHandle(
         HttpServletRequest request, HttpServletResponse response, Object handler
