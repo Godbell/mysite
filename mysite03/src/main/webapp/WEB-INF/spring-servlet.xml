@@ -9,6 +9,21 @@
     <mvc:annotation-driven/>
     <mvc:default-servlet-handler/>
 
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/user/auth"/>
+            <bean class="mysite.security.LoginInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/user/logout"/>
+            <bean class="mysite.security.LogoutInterceptor"/>
+        </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="mysite.security.AuthInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
     <context:annotation-config/>
     <context:component-scan base-package="mysite.controller"/>
     <context:component-scan base-package="mysite.service"/>

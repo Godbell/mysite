@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.servlet.http.HttpSession;
+import mysite.security.Auth;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -34,47 +35,18 @@ public class UserController {
         return "user/loginform";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(UserVo userVo, Model model, HttpSession session) {
-        UserVo authUser = userService.getUser(userVo.getEmail(), userVo.getPassword());
-
-        if (authUser == null) {
-            model.addAttribute("email", userVo.getEmail());
-            model.addAttribute("result", "fail");
-            return "user/loginform";
-        }
-
-        session.setAttribute("authUser", authUser);
-        return "redirect:/";
-    }
-
-    @RequestMapping("/logout")
-    public String logout(HttpSession session) {
-        session.removeAttribute("authUser");
-        session.invalidate();
-
-        return "redirect:/";
-    }
-
+    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String viewUpdate(HttpSession session, Model model) {
         UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/user/login";
-        }
-
         model.addAttribute("authUser", userService.getUser(authUser.getId()));
         return "user/updateform";
     }
 
+    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(HttpSession session, UserVo vo) {
         UserVo authUser = (UserVo)session.getAttribute("authUser");
-
-        if (authUser == null) {
-            return "redirect:/user/login";
-        }
 
         vo.setId(authUser.getId());
         userService.update(vo);
