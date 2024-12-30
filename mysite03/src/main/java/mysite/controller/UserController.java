@@ -30,6 +30,11 @@ public class UserController {
         return "redirect:/user/joinsuccess";
     }
 
+    @RequestMapping(value = "/joinsuccess", method = RequestMethod.GET)
+    public String viewJoinSuccess() {
+        return "user/joinsuccess";
+    }
+
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String viewLogin() {
         return "user/loginform";

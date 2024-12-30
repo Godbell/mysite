@@ -16,7 +16,7 @@ public class UserRepository {
             Connection connection = DataSource.getConnection();
             PreparedStatement preparedStatement = connection.prepareStatement(
                 """
-                    INSERT INTO user (name, password, email, gender, join_date) VALUES (?, ?, ?, ?, current_time());
+                    INSERT INTO user (name, password, email, gender, join_date, role) VALUES (?, ?, ?, ?, current_time(), ?);
                     """
             );
         ) {
@@ -24,6 +24,7 @@ public class UserRepository {
             preparedStatement.setString(2, vo.getPassword());
             preparedStatement.setString(3, vo.getEmail());
             preparedStatement.setString(4, vo.getGender());
+            preparedStatement.setString(4, vo.getRole());
             preparedStatement.executeUpdate();
         } catch (SQLException e) {
             System.out.println("sql error: " + e);
@@ -37,7 +38,7 @@ public class UserRepository {
             Connection connection = DataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(
                 """
-                        SELECT id, name, gender, join_date
+                        SELECT id, name, gender, join_date, `role`
                         FROM user
                         WHERE email = ?
                             AND password=?
@@ -55,6 +56,7 @@ public class UserRepository {
                 userVo.setEmail(email);
                 userVo.setGender(rs.getString("gender"));
                 userVo.setJoinDate(rs.getString("join_date"));
+                userVo.setRole(rs.getString("role"));
             }
 
             rs.close();
@@ -97,7 +99,7 @@ public class UserRepository {
             Connection connection = DataSource.getConnection();
             PreparedStatement pstmt = connection.prepareStatement(
                 """
-                        SELECT id, name, gender, join_date
+                        SELECT id, name, gender, `role`, join_date
                         FROM user
                         WHERE id = ?
                     """
@@ -112,6 +114,7 @@ public class UserRepository {
                 userVo.setName(rs.getString("name"));
                 userVo.setGender(rs.getString("gender"));
                 userVo.setJoinDate(rs.getString("join_date"));
+                userVo.setRole(rs.getString("role"));
             }
 
             rs.close();

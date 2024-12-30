@@ -22,13 +22,18 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
+        Auth auth = null;
+
         HandlerMethod handlerMethod = (HandlerMethod)handler;
-
-        Auth auth = handlerMethod.getMethodAnnotation(Auth.class);
-
-        if (auth == null) {
+        if (handlerMethod.getMethodAnnotation(Auth.class) != null) {
+            auth = handlerMethod.getMethodAnnotation(Auth.class);
+        } else if (handlerMethod.getBeanType().getAnnotation(Auth.class) != null) {
+            auth = handlerMethod.getBeanType().getAnnotation(Auth.class);
+        } else {
             return true;
         }
+
+        String role = auth.role();
 
         if (request.getSession().getAttribute("authUser") == null) {
             response.sendRedirect(request.getContextPath() + "/user/login");
