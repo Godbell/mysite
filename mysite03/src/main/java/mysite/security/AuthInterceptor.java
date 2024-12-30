@@ -7,6 +7,7 @@ import org.springframework.web.servlet.ModelAndView;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.service.UserService;
+import mysite.vo.UserVo;
 public class AuthInterceptor implements HandlerInterceptor {
     private final UserService userService;
 
@@ -33,10 +34,16 @@ public class AuthInterceptor implements HandlerInterceptor {
             return true;
         }
 
-        String role = auth.role();
+        String requiredRole = auth.role();
+        UserVo userVo = (UserVo)request.getSession().getAttribute("authUser");
 
-        if (request.getSession().getAttribute("authUser") == null) {
+        if (userVo == null) {
             response.sendRedirect(request.getContextPath() + "/user/login");
+            return false;
+        }
+
+        if (requiredRole.equals("ADMIN") && userVo.getRole().equals("USER")) {
+            response.sendRedirect(request.getContextPath() + "/");
             return false;
         }
 
