@@ -11,7 +11,7 @@ public class PostVo {
     private Integer depth;
     private Long userId;
     private String username;
-    private Integer boardIndex;
+    private Integer index;
     private Long parentPostId;
 
     public Long getId() {
@@ -94,12 +94,12 @@ public class PostVo {
         this.orderNo = orderNo;
     }
 
-    public Integer getBoardIndex() {
-        return boardIndex;
+    public Integer getIndex() {
+        return index;
     }
 
-    public void setBoardIndex(Integer boardIndex) {
-        this.boardIndex = boardIndex;
+    public void setIndex(Integer index) {
+        this.index = index;
     }
 
     public Long getParentPostId() {

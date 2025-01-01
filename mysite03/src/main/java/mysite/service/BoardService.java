@@ -31,7 +31,7 @@ public class BoardService {
     }
 
     public void deletePost(Long id, Long userId) {
-        boardRepository.deleteById(id, userId);
+        boardRepository.deleteByIdAndUserId(id, userId);
     }
 
     public BoardVo getBoard(Integer page, String keyword) {

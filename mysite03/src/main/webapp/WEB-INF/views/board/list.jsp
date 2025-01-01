@@ -66,7 +66,7 @@
             <c:forEach var="post" items="${list}" varStatus="status">
             {
                 id: ${post.id},
-                index: ${post.boardIndex},
+                index: ${post.index},
                 title: '${post.title}',
                 userId: ${post.userId},
                 username: '${post.username}',
