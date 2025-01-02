@@ -29,7 +29,7 @@
     </mvc:interceptors>
 
     <context:annotation-config/>
-    <context:component-scan base-package="mysite.controller"/>
+    <context:component-scan base-package="mysite.controller mysite.exception"/>
     <context:component-scan base-package="mysite.service"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
