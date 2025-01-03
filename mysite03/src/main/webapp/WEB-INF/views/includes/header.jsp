@@ -8,9 +8,10 @@
 <c:if test='<%=session.getAttribute("authUser") != null %>'>
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
+<jsp:useBean id="metadata" scope="request" type="mysite.vo.SiteVo"/>
 
 <div id="header">
-    <h1>MySite</h1>
+    <h1>${metadata.title}</h1>
     <ul>
         <c:choose>
             <c:when test="${empty authUser}">

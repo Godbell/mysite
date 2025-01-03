@@ -6,11 +6,9 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-    <title>mysite</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link href="${pageContext.servletContext.contextPath }/assets/css/admin/main.css" rel="stylesheet" type="text/css">
-</head>
+<c:import url="/WEB-INF/views/includes/head.jsp">
+    <c:param name="stylesheetPath" value="admin/main"/>
+</c:import>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/admin/include/header.jsp"/>

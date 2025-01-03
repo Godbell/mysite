@@ -5,17 +5,13 @@
 <%@ page import="mysite.vo.UserVo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<%
-    UserVo authUser = (UserVo)session.getAttribute("authUser");
-%>
+<jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>mysite</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link href="${path}/assets/css/user.css" rel="stylesheet" type="text/css">
-</head>
+<c:import url="/WEB-INF/views/includes/head.jsp">
+    <c:param name="stylesheetPath" value="user"/>
+</c:import>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
@@ -47,8 +43,8 @@
 </div>
 </body>
 <script>
-    document.getElementById("email").innerHTML = "<%=authUser.getEmail() %>"
-    document.getElementById("gender-<%=authUser.getGender()%>").checked = "checked";
-    document.getElementById("name").value = "<%=authUser.getName() %>";
+    document.getElementById("email").innerHTML = "${authUser.email}"
+    document.getElementById("gender-${authUser.gender}").checked = "checked";
+    document.getElementById("name").value = "${authUser.name}";
 </script>
 </html>

@@ -9,11 +9,9 @@
 
 <!DOCTYPE html>
 <html lang="ko">
-<head>
-    <title>mysite</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link href="${path}/assets/css/guestbook.css" rel="stylesheet" type="text/css">
-</head>
+<c:import url="/WEB-INF/views/includes/head.jsp">
+    <c:param name="stylesheetPath" value="guestbook"/>
+</c:import>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/includes/header.jsp"/>

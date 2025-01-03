@@ -7,11 +7,9 @@
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="ko">
-<head>
-    <title>mysite</title>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <link href="${path}/assets/css/board.css" rel="stylesheet" type="text/css">
-</head>
+<c:import url="/WEB-INF/views/includes/head.jsp">
+    <c:param name="stylesheetPath" value="board"/>
+</c:import>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
