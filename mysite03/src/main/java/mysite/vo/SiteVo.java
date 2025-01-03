@@ -6,13 +6,6 @@ public class SiteVo {
     private String welcome;
     private String description;
     private String profile;
-    public SiteVo(Long id, String title, String welcome, String description, String profile) {
-        this.id = id;
-        this.title = title;
-        this.welcome = welcome;
-        this.description = description;
-        this.profile = profile;
-    }
 
     public Long getId() {
         return id;

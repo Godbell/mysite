@@ -38,6 +38,9 @@
     <context:component-scan base-package="mysite.controller"/>
     <context:component-scan base-package="mysite.exception"/>
     <context:component-scan base-package="mysite.service"/>
+    <context:component-scan base-package="mysite.component"/>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.support.StandardServletMultipartResolver"/>
 
     <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

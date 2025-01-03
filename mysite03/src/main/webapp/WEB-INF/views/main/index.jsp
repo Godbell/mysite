@@ -19,7 +19,7 @@
     <div id="wrapper">
         <div id="content">
             <div id="site-introduction">
-                <img id="profile" src="${metadata.profile}"
+                <img id="profile" src="${path}/${metadata.profile}"
                      style="width: 100%;">
                 <h2 style="width: 100%">${metadata.welcome}</h2>
                 <p>
