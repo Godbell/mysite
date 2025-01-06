@@ -9,7 +9,7 @@ import org.springframework.util.StopWatch;
 @Component
 @Aspect
 public class Timer {
-    @Around(value = "execution(* mysite.repository.*(..))")
+    @Around(value = "execution(* mysite.repository.*.*(..))")
     public Object measureElapsedTime(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
         StopWatch stopWatch = new StopWatch();
 
