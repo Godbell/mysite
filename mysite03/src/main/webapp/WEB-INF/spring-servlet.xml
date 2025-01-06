@@ -33,12 +33,12 @@
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/assets/**"/>
-            <bean class="interceptor.SiteMetadataInterceptor"/>
+            <bean class="mysite.interceptor.SiteMetadataInterceptor"/>
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
             <mvc:exclude-mapping path="/assets/**"/>
-            <bean class="interceptor.LocaleInterceptor"/>
+            <bean class="mysite.interceptor.LocaleInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
