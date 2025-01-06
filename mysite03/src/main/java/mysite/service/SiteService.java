@@ -2,8 +2,6 @@ package mysite.service;
 
 import java.io.IOException;
 
-import org.springframework.cache.annotation.CachePut;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -26,13 +24,11 @@ public class SiteService {
         return siteRepository.getFull();
     }
 
-    @Cacheable("siteMetadata")
     public SiteMetadata getSiteMetadata() {
         return siteRepository.getMetadata();
     }
 
-    @CachePut("siteMetadata")
-    public SiteMetadata updateSiteInfo(
+    public void updateSiteInfo(
         String title,
         String welcome,
         String description,
@@ -41,7 +37,7 @@ public class SiteService {
     ) throws IOException {
         SiteVo vo = new SiteVo();
 
-        if (file != null) {
+        if (file != null && !file.isEmpty()) {
             String filename = fileManager.saveFile(uploadDir, file, "profile");
 
             if (filename == null) {
@@ -57,9 +53,5 @@ public class SiteService {
         vo.setDescription(description);
 
         siteRepository.update(vo);
-
-        // return metadata from db to cache
-        // selected from db considering blank input
-        return siteRepository.getMetadata();
     }
 }

@@ -9,7 +9,7 @@
 <c:if test='<%=session.getAttribute("authUser") != null %>'>
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
-<jsp:useBean id="metadata" scope="request" type="mysite.web.SiteMetadata"/>
+<jsp:useBean id="metadata" scope="application" type="mysite.web.SiteMetadata"/>
 <script>
     window.addEventListener('load', function () {
         anchors = document.querySelectorAll('#languages a');

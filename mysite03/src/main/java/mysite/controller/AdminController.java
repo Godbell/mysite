@@ -2,7 +2,11 @@ package mysite.controller;
 
 import java.io.IOException;
 
+import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.context.ConfigurableApplicationContext;
+import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,13 +21,19 @@ import mysite.service.SiteService;
 @RequestMapping("/admin")
 public class AdminController {
     private final SiteService siteService;
+    private final ApplicationEventPublisher applicationEventPublisher;
+    private final ConfigurableApplicationContext applicationContext;
 
-    public AdminController(SiteService siteService) {
+    public AdminController(SiteService siteService, ApplicationEventPublisher applicationEventPublisher,
+        ConfigurableApplicationContext applicationContext) {
         this.siteService = siteService;
+        this.applicationEventPublisher = applicationEventPublisher;
+        this.applicationContext = applicationContext;
     }
 
     @RequestMapping({"", "/", "/main"})
-    public String viewMain() {
+    public String viewMain(Model model) {
+        model.addAttribute("siteVo", siteService.getSiteFullInfo());
         return "admin/main";
     }
 
@@ -39,6 +49,9 @@ public class AdminController {
             title, welcome, description, file,
             request.getServletContext().getRealPath("/META-INF/uploads")
         );
+
+        applicationEventPublisher.publishEvent(new ContextRefreshedEvent(applicationContext));
+
         return "redirect:/admin";
     }
 
