@@ -11,18 +11,18 @@
 </c:if>
 <jsp:useBean id="metadata" scope="request" type="mysite.web.SiteMetadata"/>
 <script>
-    window.addEventListener("load", () => {
+    window.addEventListener('load', function () {
         anchors = document.querySelectorAll('#languages a');
         anchors.forEach(function (el) {
-            el.addEventListener('click', (event) => {
+            el.addEventListener('click', function (event) {
                 event.preventDefault();
                 document.cookie =
                     'lang=' + this.getAttribute('data-lang') + ';' +
-                    'path=' + "${pageContext.request.contextPath }" + ';' +
+                    'path=' + "${path}" + ';' +
                     'max-age=' + (30 * 24 * 60 * 60);
 
                 location.reload();
-            })
+            });
         });
     });
 </script>
