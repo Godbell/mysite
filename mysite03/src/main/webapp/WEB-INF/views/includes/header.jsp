@@ -8,7 +8,7 @@
 <c:if test='<%=session.getAttribute("authUser") != null %>'>
     <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
 </c:if>
-<jsp:useBean id="metadata" scope="request" type="mysite.vo.SiteVo"/>
+<jsp:useBean id="metadata" scope="request" type="mysite.web.SiteMetadata"/>
 
 <div id="header">
     <h1>${metadata.title}</h1>

@@ -4,6 +4,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import mysite.vo.SiteVo;
+import mysite.web.SiteMetadata;
 
 @Repository
 public class SiteRepository {
@@ -13,8 +14,12 @@ public class SiteRepository {
         this.sqlSession = sqlSession;
     }
 
-    public SiteVo get() {
-        return sqlSession.selectOne("site.get");
+    public SiteVo getFull() {
+        return sqlSession.selectOne("site.getFull");
+    }
+
+    public SiteMetadata getMetadata() {
+        return sqlSession.selectOne("site.getMeta");
     }
 
     public void update(SiteVo vo) {

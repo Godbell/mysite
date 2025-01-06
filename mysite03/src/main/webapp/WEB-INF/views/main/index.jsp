@@ -4,7 +4,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="metadata" scope="request" type="mysite.vo.SiteVo"/>
+<jsp:useBean id="siteVo" scope="request" type="mysite.vo.SiteVo"/>
 <% pageContext.setAttribute("newline", "\n"); %>
 
 <!DOCTYPE html>
@@ -19,11 +19,11 @@
     <div id="wrapper">
         <div id="content">
             <div id="site-introduction">
-                <img id="profile" src="${path}/${metadata.profile}"
+                <img id="profile" src="${path}/${siteVo.profile}"
                      style="width: 100%;">
-                <h2 style="width: 100%">${metadata.welcome}</h2>
+                <h2 style="width: 100%">${siteVo.welcome}</h2>
                 <p>
-                    ${fn:replace(metadata.description, newline, "<br>")}
+                    ${fn:replace(siteVo.description, newline, "<br>")}
                     <br><br>
                     <a href="${path}/guestbook">방명록</a>에 글 남기기<br>
                 </p>

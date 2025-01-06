@@ -6,6 +6,7 @@
         <typeAlias type="mysite.vo.UserVo" alias="user"/>
         <typeAlias type="mysite.vo.PostVo" alias="post"/>
         <typeAlias type="mysite.vo.SiteVo" alias="site"/>
+        <typeAlias type="mysite.web.SiteMetadata" alias="meta"/>
     </typeAliases>
     <mappers>
         <mapper resource="mybatis/mappers/guestbook.xml"/>

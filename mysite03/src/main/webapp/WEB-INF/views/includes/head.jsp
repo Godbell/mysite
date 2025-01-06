@@ -4,7 +4,7 @@
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="metadata" scope="request" type="mysite.vo.SiteVo"/>
+<jsp:useBean id="metadata" scope="request" type="mysite.web.SiteMetadata"/>
 
 <head>
     <title>${not empty param.title ? param.title : metadata.title}</title>

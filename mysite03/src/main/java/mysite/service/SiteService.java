@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import mysite.component.FileManager;
 import mysite.repository.SiteRepository;
 import mysite.vo.SiteVo;
+import mysite.web.SiteMetadata;
 
 @Service
 public class SiteService {
@@ -21,13 +22,17 @@ public class SiteService {
         this.fileManager = fileManager;
     }
 
+    public SiteVo getSiteFullInfo() {
+        return siteRepository.getFull();
+    }
+
     @Cacheable("siteMetadata")
-    public SiteVo getSiteInfo() {
-        return siteRepository.get();
+    public SiteMetadata getSiteMetadata() {
+        return siteRepository.getMetadata();
     }
 
     @CachePut("siteMetadata")
-    public SiteVo updateSiteInfo(
+    public SiteMetadata updateSiteInfo(
         String title,
         String welcome,
         String description,
@@ -55,6 +60,6 @@ public class SiteService {
 
         // return metadata from db to cache
         // selected from db considering blank input
-        return siteRepository.get();
+        return siteRepository.getMetadata();
     }
 }

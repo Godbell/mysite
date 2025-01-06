@@ -30,7 +30,7 @@
         </mvc:interceptor>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class="mysite.SiteMetadataInterceptor"/>
+            <bean class="mysite.web.SiteMetadataInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 

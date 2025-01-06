@@ -1,4 +1,4 @@
-package mysite;
+package mysite.web;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,7 +14,7 @@ public class SiteMetadataInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest req, HttpServletResponse res, Object handler) {
-        req.setAttribute("metadata", siteService.getSiteInfo());
+        req.setAttribute("metadata", siteService.getSiteMetadata());
         return true;
     }
 }
