@@ -1,4 +1,4 @@
-package mysite.web;
+package interceptor;
 
 import org.springframework.web.servlet.HandlerInterceptor;
 
