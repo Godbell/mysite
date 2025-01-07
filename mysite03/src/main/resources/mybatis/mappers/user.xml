@@ -4,7 +4,7 @@
 <mapper namespace="user">
     <insert id="insert" parameterType="user">
         INSERT INTO user (name, password, email, gender, join_date, role)
-        VALUES (#{name}, #{password}, #{email}, #{gender}, CURRENT_TIMESTAMP(), #{role});
+        VALUES (#{name}, #{password}, #{email}, #{gender}, CURRENT_TIMESTAMP(), IFNULL(#{role}, 'USER'));
     </insert>
 
     <select id="findByEmailAndPassword" parameterType="map" resultType="user">

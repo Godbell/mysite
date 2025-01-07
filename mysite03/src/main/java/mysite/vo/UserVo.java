@@ -1,10 +1,15 @@
 package mysite.vo;
 
+import jakarta.validation.constraints.NotEmpty;
 public class UserVo {
     private Long id;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String password;
+    @NotEmpty
     private String email;
+    @NotEmpty
     private String gender;
     private String joinDate;
     private String role;
@@ -60,7 +65,7 @@ public class UserVo {
     @Override
     public String toString() {
         return "UserVo [id=" + id + ", name=" + name + ", email=" + email + ", password=" + password + ", gender="
-               + gender + ", joinDate=" + joinDate + "]";
+            + gender + ", joinDate=" + joinDate + "]";
     }
 
     public String getRole() {

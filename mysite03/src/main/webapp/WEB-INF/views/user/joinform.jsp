@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="jakarta.tags.core" %>
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
@@ -15,21 +16,34 @@
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="user">
-            <form id="join-form" name="joinForm" method="post" action="${path}/user/join">
+            <%--@elvariable id="user" type="mysite.vo.UserVo"--%>
+            <form:form modelAttribute="user"
+                       id="join-form"
+                       name="joinForm"
+                       method="post"
+                       action="${path}/user/join">
                 <label class="block-label" for="name">이름</label>
-                <input id="name" name="name" type="text" value="">
+                <form:input path="name" id="name"/>
+                <br>
+                <form:errors path="name"/>
 
                 <label class="block-label" for="email">이메일</label>
-                <input id="email" name="email" type="text" value="">
+                <form:input path="email" id="email"/>
                 <input type="button" value="id 중복체크">
+                <br>
+                <form:errors path="email"/>
 
                 <label class="block-label">패스워드</label>
-                <input name="password" type="password" value="">
+                <form:password path="password" id="password"/>
+                <br>
+                <form:errors path="password"/>
 
                 <fieldset>
                     <legend>성별</legend>
-                    <label>여</label> <input type="radio" name="gender" value="female" checked="checked">
-                    <label>남</label> <input type="radio" name="gender" value="male">
+                    <label>여</label>
+                    <form:radiobutton path="gender" value="female" checked="true"/>
+                    <label>남</label>
+                    <form:radiobutton path="gender" value="male"/>
                 </fieldset>
 
                 <fieldset>
@@ -40,7 +54,7 @@
 
                 <input type="submit" value="가입하기">
 
-            </form>
+            </form:form>
         </div>
     </div>
     <c:import url="/WEB-INF/views/includes/navigation.jsp"/>
