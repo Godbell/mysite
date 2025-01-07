@@ -1,5 +1,6 @@
 package mysite.vo;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 public class UserVo {
     private Long id;
@@ -7,6 +8,7 @@ public class UserVo {
     private String name;
     @NotEmpty
     private String password;
+    @Email
     @NotEmpty
     private String email;
     @NotEmpty

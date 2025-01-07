@@ -2,6 +2,7 @@
 <%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
 <%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
@@ -21,38 +22,39 @@
                        id="join-form"
                        name="joinForm"
                        method="post"
-                       action="${path}/user/join">
-                <label class="block-label" for="name">이름</label>
+                       action="${path}/user/join"
+                       onsubmit="onSubmit()">
+                <label class="block-label" for="name"><spring:message key="user.join.label.name"/></label>
                 <form:input path="name" id="name"/>
                 <br>
                 <form:errors path="name"/>
 
-                <label class="block-label" for="email">이메일</label>
+                <label class="block-label" for="email"><spring:message key="user.join.label.email"/></label>
                 <form:input path="email" id="email"/>
-                <input type="button" value="id 중복체크">
+                <input type="button" value="<spring:message key="user.join.label.email.check"/>" onclick="">
                 <br>
                 <form:errors path="email"/>
 
-                <label class="block-label">패스워드</label>
+                <label class="block-label"><spring:message key="user.join.label.password"/></label>
                 <form:password path="password" id="password"/>
                 <br>
                 <form:errors path="password"/>
 
                 <fieldset>
-                    <legend>성별</legend>
-                    <label>여</label>
+                    <legend><spring:message key="user.join.label.gender"/></legend>
+                    <label><spring:message key="user.join.label.gender.female"/></label>
                     <form:radiobutton path="gender" value="female" checked="true"/>
-                    <label>남</label>
+                    <label><spring:message key="user.join.label.gender.male"/></label>
                     <form:radiobutton path="gender" value="male"/>
                 </fieldset>
 
                 <fieldset>
-                    <legend>약관동의</legend>
-                    <input id="agree-prov" type="checkbox" name="agreeProv" value="y">
-                    <label>서비스 약관에 동의합니다.</label>
+                    <legend><spring:message key="user.join.label.terms"/></legend>
+                    <input id="agree-prov" type="checkbox" name="agreeProv">
+                    <label><spring:message key="user.join.label.terms.message"/></label>
                 </fieldset>
 
-                <input type="submit" value="가입하기">
+                <input type="submit" value="<spring:message key="user.join.button.signup" />">
 
             </form:form>
         </div>
@@ -61,4 +63,19 @@
     <c:import url="/WEB-INF/views/includes/footer.jsp"/>
 </div>
 </body>
+<script>
+    const formStatus = {
+        isDupChecked: false,
+    }
+
+    function checkEmailDuplication() {
+        const email = document.getElementById('email');
+        fetch(`${path}/user/email/availability?email=\${email.value}}`)
+    }
+
+    function onSubmit() {
+        const termCheckBox = document.getElementById('agree-prov');
+        return termCheckBox.checked && formStatus.isDupChecked;
+    }
+</script>
 </html>
