@@ -72,6 +72,7 @@
                 <configuration>
                     <url>${tomcat.deploy.url}</url>
                     <server>tomcat-poscodx</server>
+                    <path>/mysite02</path>
                 </configuration>
             </plugin>
         </plugins>
