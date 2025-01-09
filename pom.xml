@@ -1,17 +1,29 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.poscodx</groupId>
-  <artifactId>mysite</artifactId>
-  <packaging>pom</packaging>
-  <modules>
-    <module>mysite02</module>
-      <module>mysite03</module>
-  </modules>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>mysite Maven Webapp</name>
-  <url>http://maven.apache.org</url>
-  <build>
-    <finalName>mysite</finalName>
-  </build>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>com.poscodx</groupId>
+    <artifactId>mysite</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>mysite02</module>
+        <module>mysite03</module>
+    </modules>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>mysite Maven Webapp</name>
+    <url>http://maven.apache.org</url>
+    <build>
+        <finalName>mysite</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <url>${tomcat.deploy.url}</url>
+                    <server>tomcat-poscodx</server>
+                    <path>/mysite03</path>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>
