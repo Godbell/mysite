@@ -28,4 +28,8 @@ public class UserService {
     public void update(UserVo vo) {
         userRepository.update(vo);
     }
+
+    public boolean getEmailAvailability(String email) {
+        return userRepository.isEmailAvailable(email);
+    }
 }

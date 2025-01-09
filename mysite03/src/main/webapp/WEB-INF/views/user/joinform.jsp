@@ -32,6 +32,8 @@
                 <label class="block-label" for="email"><spring:message key="user.join.label.email"/></label>
                 <form:input path="email" id="email"/>
                 <input type="button" value="<spring:message key="user.join.label.email.check"/>" onclick="">
+                <img src="${path}/assets/img/check.png" width="24px" height="24px"/>
+
                 <br>
                 <form:errors path="email"/>
 

@@ -40,4 +40,8 @@ public class UserRepository {
     public UserVo findById(Long id) {
         return sqlSession.selectOne("user.findById", id);
     }
+
+    public boolean isEmailAvailable(String email) {
+        return (int)sqlSession.selectOne("user.isEmailAvailable", email) == 0;
+    }
 }
