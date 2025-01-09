@@ -6,7 +6,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<c:set var="result" value='<%=request.getAttribute("result") %>'/>
 
 <!DOCTYPE html>
 <html lang="ko">
@@ -21,7 +20,7 @@
             <form id="login-form" name="loginform" method="post" action="${path}/user/auth">
                 <label class="block-label" for="email">이메일</label>
                 <input id="email" name="email" type="text"
-                       value="<%=Optional.ofNullable(request.getAttribute("email")).orElse("") %>">
+                       value="${email}">
                 <label class="block-label">패스워드</label>
                 <input name="password" type="password" value="">
                 <c:if test="${'fail'.equals(result)}">

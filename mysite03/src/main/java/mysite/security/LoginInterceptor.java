@@ -1,5 +1,7 @@
 package mysite.security;
 
+import java.net.URLEncoder;
+
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,11 +24,12 @@ public class LoginInterceptor implements HandlerInterceptor {
         UserVo user = userService.getUser(email, password);
 
         if (user == null) {
-            request.setAttribute("email", email);
-            request.setAttribute("result", "fail");
-            request
-                .getRequestDispatcher("/WEB-INF/views/user/loginform.jsp")
-                .forward(request, response);
+            response.sendRedirect(
+                request.getContextPath() +
+                    "/user/login?email=" +
+                    URLEncoder.encode(email) +
+                    "&result=fail"
+            );
 
             return false;
         }
