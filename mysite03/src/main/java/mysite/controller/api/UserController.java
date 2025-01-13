@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import mysite.dto.JsonResult;
 import mysite.service.UserService;
 
 @RequestMapping("/api/user")
@@ -19,7 +20,10 @@ public class UserController {
     }
 
     @GetMapping("/checkemail")
-    public Object checkEmail(@RequestParam(value = "email") String email) {
-        return Map.of("availability", userService.getEmailAvailability(email));
+    public JsonResult checkEmail(@RequestParam(value = "email") String email) {
+        return JsonResult.success(
+            Map.of("availability", userService.getEmailAvailability(email)),
+            null
+        );
     }
 }

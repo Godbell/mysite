@@ -12,6 +12,9 @@
 <c:import url="/WEB-INF/views/includes/head.jsp">
     <c:param name="stylesheetPath" value="user"/>
 </c:import>
+<script src="https://code.jquery.com/jquery-1.9.0.js"
+        integrity="sha256-TXsBwvYEO87oOjPQ9ifcb7wn3IrrW91dhj6EMEtRLvM="
+        crossorigin="anonymous"></script>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
@@ -31,8 +34,10 @@
 
                 <label class="block-label" for="email"><spring:message key="user.join.label.email"/></label>
                 <form:input path="email" id="email"/>
-                <input type="button" value="<spring:message key="user.join.label.email.check"/>" onclick="">
-                <img src="${path}/assets/img/check.png" width="24px" height="24px"/>
+                <input id="btn-check" type="button" value="<spring:message key="user.join.label.email.check"/>"
+                       onclick="">
+                <img id="icon-check" src="${path}/assets/img/check.png" width="24px" height="24px"
+                     style="display: none;"/>
 
                 <br>
                 <form:errors path="email"/>
@@ -70,6 +75,44 @@
         isDupChecked: false,
     }
 
+    $(function () {
+        const $emailCheckButton = $("#btn-check");
+
+        $emailCheckButton.click(function () {
+            const $email = $('#email');
+
+            if ($email.val().length === 0) {
+                return;
+            }
+
+            $.ajax({
+                url: `${path}/api/user/checkemail?email=\${$email.val()}`,
+                type: 'GET',
+                dataType: 'json',
+                success: function (res) {
+                    console.log(res);
+
+                    if (res.result !== 'success') {
+                        return;
+                    }
+
+                    if (!res.data.availability) {
+                        alert('이미 사용중인 이메일입니다.');
+                        $email.val("");
+                        $email.focus();
+                        return;
+                    }
+
+                    formStatus.isDupChecked = true;
+                    $('#btn-check').css('display', 'none');
+                    $('#icon-check').css('display', 'inline');
+                },
+            });
+        });
+
+        console.log("dom loaded");
+    });
+
     function checkEmailDuplication() {
         const email = document.getElementById('email');
         fetch(`${path}/user/email/availability?email=\${email.value}}`)
@@ -79,5 +122,6 @@
         const termCheckBox = document.getElementById('agree-prov');
         return termCheckBox.checked && formStatus.isDupChecked;
     }
+
 </script>
 </html>
