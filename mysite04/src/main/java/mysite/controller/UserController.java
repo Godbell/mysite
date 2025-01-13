@@ -70,4 +70,12 @@ public class UserController {
 
         return "user/updateform";
     }
+
+    @RequestMapping("/auth")
+    public void auth() {
+    }
+
+    @RequestMapping("/logout")
+    public void logout() {
+    }
 }
