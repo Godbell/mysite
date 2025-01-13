@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="user">
+    <insert id="insert" parameterType="user">
+        INSERT INTO user (name, password, email, gender, join_date, role)
+        VALUES (#{name}, #{password}, #{email}, #{gender}, CURRENT_TIMESTAMP(), IFNULL(#{role}, 'USER'));
+    </insert>
+
+    <select id="findByEmailAndPassword" parameterType="map" resultType="user">
+        SELECT id, name, email, gender, join_date, role
+        FROM user
+        WHERE email = #{email}
+          AND password = #{password}
+    </select>
+
+    <update id="update" parameterType="user">
+        UPDATE user
+        SET name     = IFNULL(#{name}, name),
+            password = IFNULL(#{password}, password),
+            gender   = IFNULL(#{gender}, gender)
+        WHERE id = #{id};
+    </update>
+
+    <select id="findById" parameterType="long" resultType="user">
+        SELECT id, name, gender, role, join_date
+        FROM user
+        WHERE id = #{id}
+    </select>
+
+    <select id="isEmailAvailable" parameterType="string" resultType="int">
+        SELECT COUNT(*)
+        FROM user
+        WHERE email = #{email};
+    </select>
+</mapper>
