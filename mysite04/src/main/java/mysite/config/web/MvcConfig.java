@@ -7,6 +7,8 @@ import java.util.List;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
@@ -17,6 +19,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
@@ -26,7 +29,13 @@ import mysite.security.AuthInterceptor;
 
 @Configuration
 @EnableWebMvc
+@PropertySource("classpath:/mysite/config/web/fileupload.properties")
 public class MvcConfig implements WebMvcConfigurer {
+    private final Environment env;
+
+    public MvcConfig(Environment env) {
+        this.env = env;
+    }
 
     // View Resolver
     @Bean
@@ -100,5 +109,11 @@ public class MvcConfig implements WebMvcConfigurer {
             .addInterceptor(authInterceptor())
             .addPathPatterns("/**")
             .excludePathPatterns("/assets/**");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler(env.getProperty("fileupload.resourceUrl") + "**")
+            .addResourceLocations(env.getProperty("fileupload.location"));
     }
 }

@@ -17,8 +17,9 @@ public class FileManager {
 
         if (
             (!uploadDirectory.exists() && !uploadDirectory.mkdirs())
-            || file.isEmpty()
+                || file.isEmpty()
         ) {
+            System.out.println("file cannot be created");
             return null;
         }
 
@@ -43,14 +44,14 @@ public class FileManager {
         Calendar calendar = Calendar.getInstance();
 
         return ""
-               + calendar.get(Calendar.YEAR)
-               + calendar.get(Calendar.MONTH)
-               + calendar.get(Calendar.DATE)
-               + calendar.get(Calendar.HOUR)
-               + calendar.get(Calendar.YEAR)
-               + calendar.get(Calendar.MINUTE)
-               + calendar.get(Calendar.SECOND)
-               + calendar.get(Calendar.MILLISECOND)
-               + ("." + extName);
+            + calendar.get(Calendar.YEAR)
+            + calendar.get(Calendar.MONTH)
+            + calendar.get(Calendar.DATE)
+            + calendar.get(Calendar.HOUR)
+            + calendar.get(Calendar.YEAR)
+            + calendar.get(Calendar.MINUTE)
+            + calendar.get(Calendar.SECOND)
+            + calendar.get(Calendar.MILLISECOND)
+            + ("." + extName);
     }
 }

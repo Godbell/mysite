@@ -297,3 +297,5 @@ l
 <mysite04/src/main/java/mysite/config/web/SecurityConfig.java,1/e/1e2768654c2ea4afc3adefdc8971c0e304c425e9
 c
 3mysite04/src/main/java/mysite/config/AppConfig.java,7/f/7f9f4eb9fe1aa73400f00a264ac830773f73a44f
+h
+8mysite04/src/main/java/mysite/component/FileManager.java,0/8/085313734997cd19185c77d81fe92958a42024d2

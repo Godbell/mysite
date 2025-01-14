@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import jakarta.servlet.ServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 import mysite.security.Auth;
 import mysite.service.SiteService;
 
@@ -43,12 +43,9 @@ public class AdminController {
         @RequestParam("welcome") String welcome,
         @RequestParam("description") String description,
         @RequestParam(value = "file", required = false) MultipartFile file,
-        ServletRequest request
+        HttpServletRequest req
     ) throws IOException {
-        siteService.updateSiteInfo(
-            title, welcome, description, file,
-            request.getServletContext().getRealPath("/META-INF/uploads")
-        );
+        siteService.updateSiteInfo(title, welcome, description, file, req);
 
         applicationEventPublisher.publishEvent(new ContextRefreshedEvent(applicationContext));
 
