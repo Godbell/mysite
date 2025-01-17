@@ -5,7 +5,7 @@
 <%@ page import="mysite.vo.UserVo" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
+<jsp:useBean id="authUser" scope="request" type="mysite.vo.UserVo"/>
 
 <!DOCTYPE html>
 <html lang="ko">

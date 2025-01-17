@@ -56,15 +56,14 @@ public class UserController {
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(Authentication authentication, Model model) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
-        UserVo userVo = userService.getUser(authUser.getId());
 
-        model.addAttribute("authUser", userVo);
+        model.addAttribute("authUser", authUser);
         return "user/updateform";
     }
 
     @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
-    public String update(Authentication authentication, UserVo vo) {
+    public String update(Authentication authentication, UserVo vo, Model model) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
 
         vo.setId(authUser.getId());
@@ -73,6 +72,7 @@ public class UserController {
         authUser.setName(vo.getName());
         authUser.setGender(vo.getGender());
 
+        model.addAttribute("authUser", authUser);
         return "user/updateform";
     }
 
