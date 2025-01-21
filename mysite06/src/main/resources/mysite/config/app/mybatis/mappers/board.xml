@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+    <select id="findAll" parameterType="map" resultType="post">
+        SELECT board.id AS "id",
+               title,
+               hit,
+               g_no     AS "groupNo",
+               o_no     AS "orderNo",
+               depth,
+               user_id  AS "userId",
+               DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s')
+                        AS "regDate",
+               name     AS "username",
+               (SELECT COUNT(*) FROM board)
+                   - (ROW_NUMBER() over (ORDER BY board.g_no DESC, board.o_no) - 1)
+                        AS "index"
+        FROM board
+                 LEFT JOIN webdb.user u ON board.user_id = u.id
+        WHERE title LIKE #{query}
+        ORDER BY g_no DESC, o_no
+        LIMIT #{offset}, #{limit};
+    </select>
+
+    <select id="totalCount" resultType="integer" parameterType="string">
+        SELECT COUNT(*)
+        FROM board
+        WHERE title LIKE #{query}
+    </select>
+
+    <select id="findByIdAndUserId" resultType="post" parameterType="map">
+        SELECT board.id, title, contents
+        FROM board
+                 LEFT JOIN webdb.user u ON board.user_id = u.id
+        WHERE board.id = #{postId}
+          AND user_id = #{userId};
+    </select>
+
+    <select id="findById" resultType="post" parameterType="long">
+        SELECT board.id,
+               title,
+               u.id   AS "userId",
+               u.name AS "username",
+               contents,
+               g_no   AS "groupNo",
+               depth,
+               o_no   AS "orderNo"
+        FROM board
+                 LEFT JOIN webdb.user u ON board.user_id = u.id
+        WHERE board.id = #{id};
+    </select>
+
+    <update id="updateIndex" parameterType="map">
+        UPDATE board
+        SET o_no = o_no + 1
+        WHERE g_no = #{groupNo}
+          AND o_no >= #{orderNo};
+    </update>
+
+    <insert id="insert" parameterType="post" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
+        INSERT INTO board
+        (title, contents, user_id, o_no, g_no, depth)
+        SELECT #{title}, #{contents}, #{userId}
+        <choose>
+            <when test="parentPostId != null">
+                , #{orderNo}, #{groupNo}, #{depth}
+            </when>
+            <otherwise>
+                , 0, MAX(g_no) + 1, 0
+            </otherwise>
+        </choose>
+        FROM board
+        LIMIT 0, 1;
+    </insert>
+
+    <update id="update" parameterType="post">
+        UPDATE board
+        SET title    = #{title},
+            contents = #{contents}
+        WHERE id = #{id}
+          AND user_id = #{userId};
+    </update>
+
+    <delete id="delete" parameterType="map">
+        DELETE
+        FROM board
+        WHERE id = #{postId}
+          AND user_id = #{userId};
+    </delete>
+
+    <update id="increaseHitByPostId" parameterType="long">
+        UPDATE board
+        SET hit = hit + 1
+        WHERE id = #{postId};
+    </update>
+</mapper>
