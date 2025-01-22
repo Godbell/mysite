@@ -16,7 +16,7 @@ import mysite.vo.SiteVo;
 
 @Service
 @AllArgsConstructor
-@PropertySource("classpath:/mysite/config/web/fileupload.properties")
+@PropertySource("classpath:/fileupload.properties")
 public class SiteService {
     private final SiteRepository siteRepository;
     private final FileManager fileManager;
