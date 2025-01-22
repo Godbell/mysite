@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import mysite.security.Auth;
 import mysite.service.BoardService;
 import mysite.vo.BoardVo;
 import mysite.vo.PostVo;
@@ -39,13 +38,11 @@ public class BoardController {
         return "board/list";
     }
 
-    @Auth
     @RequestMapping(value = "/add", method = RequestMethod.GET)
     public String viewCreatePost() {
         return "board/write";
     }
 
-    @Auth
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public String createPost(Authentication authentication, PostVo vo) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -68,7 +65,6 @@ public class BoardController {
         return "board/view";
     }
 
-    @Auth
     @RequestMapping(value = "/update/{postId}", method = RequestMethod.GET)
     public String viewUpdate(
         Authentication authentication,
@@ -85,7 +81,6 @@ public class BoardController {
         return "board/modify";
     }
 
-    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String viewUpdate(Authentication authentication, PostVo postVo) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -95,7 +90,6 @@ public class BoardController {
         return "redirect:/board/" + postVo.getId();
     }
 
-    @Auth
     @RequestMapping(value = "/delete/{postId}", method = RequestMethod.GET)
     public String deletePost(Authentication authentication, @PathVariable("postId") Long postId) {
         UserVo authUser = (UserVo)authentication.getPrincipal();

@@ -1,9 +1,10 @@
-package mysite.config.web;
+package mysite.vo;
 
+import org.springframework.beans.factory.annotation.Value;
 public class SiteMetadata {
     private String title;
 
-    public SiteMetadata(String title) {
+    public SiteMetadata(@Value("${site.metadata.title:Default none}") String title) {
 
         this.title = title;
     }

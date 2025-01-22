@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import jakarta.validation.Valid;
-import mysite.security.Auth;
 import mysite.service.UserService;
 import mysite.vo.UserVo;
 
@@ -52,7 +51,6 @@ public class UserController {
         return "user/loginform";
     }
 
-    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.GET)
     public String update(Authentication authentication, Model model) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
@@ -61,7 +59,6 @@ public class UserController {
         return "user/updateform";
     }
 
-    @Auth
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Authentication authentication, UserVo vo, Model model) {
         UserVo authUser = (UserVo)authentication.getPrincipal();

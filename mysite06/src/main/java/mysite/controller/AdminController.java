@@ -13,10 +13,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
-import mysite.security.Auth;
 import mysite.service.SiteService;
 
-@Auth(role = "ADMIN")
 @Controller
 @RequestMapping("/admin")
 public class AdminController {

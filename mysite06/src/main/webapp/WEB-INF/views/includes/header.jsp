@@ -7,7 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="metadata" scope="application" type="mysite.config.web.SiteMetadata"/>
+<jsp:useBean id="siteMetadata" scope="application" type="mysite.vo.SiteMetadata"/>
 <script>
     window.addEventListener('load', function () {
         anchors = document.querySelectorAll('#languages a');
@@ -25,7 +25,7 @@
     });
 </script>
 <div id="header">
-    <h1>${metadata.title}</h1>
+    <h1>${siteMetadata.title}</h1>
     <div id="languages">
         <c:choose>
             <c:when test='${lang == "en"}'>
