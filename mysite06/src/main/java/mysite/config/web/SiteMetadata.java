@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 public class SiteMetadata {
     private String title;

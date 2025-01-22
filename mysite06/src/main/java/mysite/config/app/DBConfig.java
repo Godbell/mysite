@@ -1,4 +1,4 @@
-package mysite.app;
+package mysite.config.app;
 
 import javax.sql.DataSource;
 

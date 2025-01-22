@@ -6,8 +6,8 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
 
 import jakarta.servlet.ServletContext;
+import mysite.config.web.SiteMetadata;
 import mysite.service.SiteService;
-import mysite.web.SiteMetadata;
 public class ApplicationContextEventListener {
     private final String metadataBeanName = "metadata";
 

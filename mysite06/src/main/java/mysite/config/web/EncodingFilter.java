@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 import java.io.IOException;
 
@@ -39,6 +39,6 @@ public class EncodingFilter extends HttpFilter implements Filter {
     }
 
     @Override
-    public void destroy() {}
-
+    public void destroy() {
+    }
 }

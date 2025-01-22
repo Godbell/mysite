@@ -5,9 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.Import;
 
-import mysite.web.FileUploadConfig;
-import mysite.web.LocaleConfig;
-import mysite.web.MvcConfig;
+import mysite.config.web.FileUploadConfig;
+import mysite.config.web.LocaleConfig;
+import mysite.config.web.MvcConfig;
 
 @Configuration
 @EnableAspectJAutoProxy

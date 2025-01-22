@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 import java.util.ResourceBundle;
 

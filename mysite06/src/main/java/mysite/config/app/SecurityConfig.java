@@ -1,4 +1,4 @@
-package mysite.app;
+package mysite.config.app;
 
 import java.io.IOException;
 

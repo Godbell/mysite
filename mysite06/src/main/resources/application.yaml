@@ -21,6 +21,8 @@ spring:
   web:
     resources:
       static-locations: classpath:/assets/
+  main:
+    allow-bean-definition-overriding: true
 server:
   port: 8080
   servlet:

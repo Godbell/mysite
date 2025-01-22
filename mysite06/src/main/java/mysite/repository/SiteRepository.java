@@ -3,8 +3,8 @@ package mysite.repository;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import mysite.config.web.SiteMetadata;
 import mysite.vo.SiteVo;
-import mysite.web.SiteMetadata;
 
 @Repository
 public class SiteRepository {

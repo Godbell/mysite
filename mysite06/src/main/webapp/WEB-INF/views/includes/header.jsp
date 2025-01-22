@@ -7,10 +7,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 
 <c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<c:if test='<%=session.getAttribute("authUser") != null %>'>
-    <jsp:useBean id="authUser" scope="session" type="mysite.vo.UserVo"/>
-</c:if>
-<jsp:useBean id="metadata" scope="application" type="mysite.web.SiteMetadata"/>
+<jsp:useBean id="metadata" scope="application" type="mysite.config.web.SiteMetadata"/>
 <script>
     window.addEventListener('load', function () {
         anchors = document.querySelectorAll('#languages a');
@@ -66,7 +63,9 @@
                     <spring:message key="header.gnb.logout"/>
                 </a>
             </li>
-            <spring:message key="header.gnb.greeting"/> ${authUser.name }</li>
+            <li>
+                <spring:message key="header.gnb.greeting"/> ${authUser.name}
+            </li>
         </sec:authorize>
     </ul>
 </div>

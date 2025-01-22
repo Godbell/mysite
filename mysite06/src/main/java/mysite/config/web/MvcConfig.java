@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;

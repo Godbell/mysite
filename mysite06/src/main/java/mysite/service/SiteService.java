@@ -9,9 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.servlet.http.HttpServletRequest;
 import mysite.component.FileManager;
+import mysite.config.web.SiteMetadata;
 import mysite.repository.SiteRepository;
 import mysite.vo.SiteVo;
-import mysite.web.SiteMetadata;
 
 @Service
 @PropertySource("classpath:/mysite/config/web/fileupload.properties")

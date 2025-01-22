@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 import jakarta.servlet.ServletContextEvent;
 import jakarta.servlet.ServletContextListener;

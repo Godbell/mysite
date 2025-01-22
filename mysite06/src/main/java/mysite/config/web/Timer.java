@@ -1,4 +1,4 @@
-package mysite.web;
+package mysite.config.web;
 
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
