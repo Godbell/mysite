@@ -23,6 +23,9 @@ spring:
       static-locations: classpath:/assets/
   main:
     allow-bean-definition-overriding: true
+  aop:
+    auto: true
+    proxy-target-class: true
 server:
   port: 8080
   servlet:

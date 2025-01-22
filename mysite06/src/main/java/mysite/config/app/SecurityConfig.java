@@ -10,15 +10,15 @@ import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
 import jakarta.servlet.ServletException;
@@ -37,10 +37,15 @@ public class SecurityConfig {
     }
 
     @Bean
+    public WebSecurityCustomizer webSecurityCustomizer() {
+        return webSecurity -> webSecurity.httpFirewall(new DefaultHttpFirewall());
+    }
+
+    @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
             .csrf(AbstractHttpConfigurer::disable)
-            .formLogin(formLogin -> {
+            .formLogin(formLogin ->
                 formLogin
                     .loginPage("/user/login")
                     .loginProcessingUrl("/user/auth")
@@ -48,20 +53,14 @@ public class SecurityConfig {
                     .passwordParameter("password")
                     .defaultSuccessUrl("/")
                     // .failureUrl("/user/login?result=fail");
-                    .failureHandler(new AuthenticationFailureHandler() {
-                        @Override
-                        public void onAuthenticationFailure(
-                            HttpServletRequest request,
-                            HttpServletResponse response,
-                            AuthenticationException exception) throws IOException, ServletException {
-                            request.setAttribute("email", request.getParameter("email"));
-                            request.setAttribute("result", "fail");
-                            request
-                                .getRequestDispatcher("/user/login")
-                                .forward(request, response);
-                        }
-                    });
-            })
+                    .failureHandler((request, response, exception) -> {
+                        request.setAttribute("email", request.getParameter("email"));
+                        request.setAttribute("result", "fail");
+                        request
+                            .getRequestDispatcher("/user/login")
+                            .forward(request, response);
+                    })
+            )
             .logout(logout -> {
                 logout
                     .logoutUrl("/user/logout")
