@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>com.poscodx</groupId>
-    <artifactId>mysite06</artifactId>
+    <artifactId>mysite07</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>war</packaging>
 
