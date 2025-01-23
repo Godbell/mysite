@@ -9,8 +9,6 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-import org.springframework.web.servlet.view.InternalResourceViewResolver;
-import org.springframework.web.servlet.view.JstlView;
 import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurityDialect;
 import org.thymeleaf.spring6.ISpringTemplateEngine;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -31,16 +29,6 @@ public class MvcConfig implements WebMvcConfigurer {
         localeResolver.setCookieHttpOnly(false);
 
         return localeResolver;
-    }
-
-    @Bean
-    public ViewResolver viewResolver() {
-        InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setViewClass(JstlView.class);
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-
-        return viewResolver;
     }
 
     @Bean
