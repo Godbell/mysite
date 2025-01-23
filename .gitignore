@@ -18,6 +18,10 @@ mysite-log
 
 ### IntelliJ IDEA ###
 .idea
+!.idea/sqldialects.xml
+!.idea/encodings.xml
+!.idea/workspace.xml
+!.idea/vcs.xml
 *.iws
 *.iml
 *.ipr

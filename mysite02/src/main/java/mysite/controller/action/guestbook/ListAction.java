@@ -19,7 +19,7 @@ public class ListAction implements Action {
         List<GuestBookVo> list = dao.findAll();
         req.setAttribute("list", list);
 
-        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/guestbook/index.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("/WEB-INF/views/guestbook/index.html");
         dispatcher.forward(req, res);
     }
 }

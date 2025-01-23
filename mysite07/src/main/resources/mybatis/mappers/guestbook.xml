@@ -6,8 +6,13 @@
         <![CDATA[
         SELECT id,
                name,
-               DATE_FORMAT(reg_date, '%Y-%m-%d %h:%i:%s') AS regDate,
-               contents
+               DATE_FORMAT(reg_date, '%Y-%m-%d %h:%i:%s')
+                   AS regDate,
+               contents,
+               (SELECT COUNT(*) FROM guestbook)
+                   - ROW_NUMBER() over (ORDER BY reg_date DESC)
+                   + 1
+                   AS "index"
         FROM guestbook
         ORDER BY reg_date DESC;
         ]]>
