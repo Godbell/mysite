@@ -1,24 +1,13 @@
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
-
-<%@ page import="mysite.vo.UserVo" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-<jsp:useBean id="authUser" scope="request" type="mysite.vo.UserVo"/>
-
 <!DOCTYPE html>
-<html lang="ko">
-<c:import url="/WEB-INF/views/includes/head.jsp">
-    <c:param name="stylesheetPath" value="user"/>
-</c:import>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'main', title = null)"></th:block>
 <body>
 <div id="container">
     <c:import url="/WEB-INF/views/includes/header.jsp"/>
     <div id="content">
         <div id="user">
 
-            <form id="update-form" name="updateForm" method="post" action="${path}/user/update">
+            <form action="${path}/user/update" id="update-form" method="post" name="updateForm">
                 <label class="block-label" for="name">이름</label>
                 <input id="name" name="name" type="text">
 
@@ -30,8 +19,8 @@
 
                 <fieldset>
                     <legend>성별</legend>
-                    <label>여</label> <input id="gender-female" type="radio" name="gender" value="female">
-                    <label>남</label> <input id="gender-male" type="radio" name="gender" value="male">
+                    <label>여</label> <input id="gender-female" name="gender" type="radio" value="female">
+                    <label>남</label> <input id="gender-male" name="gender" type="radio" value="male">
                 </fieldset>
 
                 <input type="submit" value="수정하기">

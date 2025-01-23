@@ -23,7 +23,7 @@ public class UserController {
     public String viewJoin(
         @ModelAttribute("user") UserVo userVo
     ) {
-        return "user/joinform";
+        return "user/join";
     }
 
     @RequestMapping(value = "/join", method = RequestMethod.POST)
@@ -32,7 +32,7 @@ public class UserController {
     ) {
         if (result.hasErrors()) {
             model.addAllAttributes(result.getModel());
-            return "/user/joinform";
+            return "user/join";
         }
 
         userService.createUser(vo);
@@ -46,29 +46,26 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     public String viewLogin() {
-        return "user/loginform";
+        return "login";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update(Authentication authentication, Model model) {
-        UserVo authUser = (UserVo)authentication.getPrincipal();
-
-        model.addAttribute("authUser", authUser);
-        return "user/updateform";
+    public String update() {
+        return "user/update";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.POST)
     public String update(Authentication authentication, UserVo vo, Model model) {
-        UserVo authUser = (UserVo)authentication.getPrincipal();
+        UserVo user = (UserVo)authentication.getPrincipal();
 
-        vo.setId(authUser.getId());
+        vo.setId(user.getId());
         userService.update(vo);
 
-        authUser.setName(vo.getName());
-        authUser.setGender(vo.getGender());
+        user.setName(vo.getName());
+        user.setGender(vo.getGender());
 
-        model.addAttribute("authUser", authUser);
-        return "user/updateform";
+        model.addAttribute("user", user);
+        return "user/update";
     }
 
     @RequestMapping("/auth")

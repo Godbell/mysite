@@ -42,7 +42,7 @@
             </div>
 
             <div class="bottom">
-                <c:if test='${!empty pageContext.session.getAttribute("authUser")}'>
+                <c:if test='${!empty pageContext.session.getAttribute("user")}'>
                     <a href="${path}/board/add" id="new-book">글쓰기</a>
                 </c:if>
             </div>

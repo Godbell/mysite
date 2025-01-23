@@ -1,17 +1,6 @@
-<%@ taglib prefix="c" uri="jakarta.tags.core" %>
-<%@ taglib prefix="fmt" uri="jakarta.tags.fmt" %>
-<%@ taglib prefix="fn" uri="jakarta.tags.functions" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib prefix="spring" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-
 <!DOCTYPE html>
-<html lang="ko">
-<c:import url="/WEB-INF/views/includes/head.jsp">
-    <c:param name="stylesheetPath" value="user"/>
-</c:import>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'main', title = null)"></th:block>
 <script src="https://code.jquery.com/jquery-1.9.0.js"
         integrity="sha256-TXsBwvYEO87oOjPQ9ifcb7wn3IrrW91dhj6EMEtRLvM="
         crossorigin="anonymous"></script>
