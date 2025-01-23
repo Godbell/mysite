@@ -1,15 +1,12 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="common/"></th:block>
-<c:import url="/WEB-INF/views/includes/head.jsp">
-    <c:param name="stylesheetPath" value="guestbook"/>
-</c:import>
+<th:block th:replace="common/head::head(stylesheetPath = 'guestbook', title = null)"></th:block>
 <body>
 <div id="container">
-    <c:import url="/WEB-INF/views/includes/header.jsp"/>
+    <th:block th:replace="common/header::header"/>
     <div id="content">
         <div id="guestbook">
-            <form action="${pageContext.request.contextPath }/guestbook/add" method="post">
+            <form method="post" th:action="@{/guestbook/add}">
                 <table>
                     <tr>
                         <td>이름</td>
@@ -26,30 +23,29 @@
                 </table>
             </form>
             <ul>
-                <c:set value="${fn:length(list) }" var="count"/>
-                <c:forEach items="${list }" var="vo" varStatus="status">
-                    <li>
-                        <table>
-                            <tr>
-                                <td>[${count-status.index }]</td>
-                                <td>${vo.name }</td>
-                                <td>${vo.regDate }</td>
-                                <td><a href="${pageContext.request.contextPath }/guestbook/delete/${vo.id }">삭제</a></td>
-                            </tr>
-                            <tr>
-                                <td colspan=4>
-                                    ${fn:replace(vo.contents, newLine, "<br>") }
-                                </td>
-                            </tr>
-                        </table>
-                        <br>
-                    </li>
-                </c:forEach>
+                <li th:each="guestbook : ${list}">
+                    <table>
+                        <tr>
+                            <td th:text="${guestbook.index}"></td>
+                            <td th:text="${guestbook.name}"></td>
+                            <td th:text="${guestbook.regDate}"></td>
+                            <td><a th:href="@{/guestbook/delete/__${guestbook.id}__}">삭제</a></td>
+                        </tr>
+                        <tr>
+                            <td colspan=4
+                                th:text="${
+                                    #strings.replace(guestbook.contents, newLine, '&lt;br&gt;')
+                                }">
+                            </td>
+                        </tr>
+                    </table>
+                    <br>
+                </li>
             </ul>
         </div>
     </div>
-    <c:import url="/WEB-INF/views/includes/navigation.jsp"/>
-    <c:import url="/WEB-INF/views/includes/footer.jsp"/>
+    <th:block th:replace="common/navigation::navigation"/>
+    <th:block th:replace="common/footer::footer"/>
 </div>
 </body>
 </html>

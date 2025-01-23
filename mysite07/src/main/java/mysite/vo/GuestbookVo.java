@@ -13,4 +13,5 @@ public class GuestbookVo {
     private String password;
     private String regDate;
     private String contents;
+    private Integer index;
 }
