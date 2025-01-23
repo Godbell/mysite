@@ -46,7 +46,7 @@ public class UserController {
 
     @RequestMapping(value = "/login")
     public String viewLogin() {
-        return "login";
+        return "user/login";
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)

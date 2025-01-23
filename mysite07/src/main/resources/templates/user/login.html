@@ -1,28 +1,26 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="common/head::head(stylesheetPath = 'main', title = null)"></th:block>
+<th:block th:replace="common/head::head(stylesheetPath = 'user', title = null)"></th:block>
 <body>
 <div id="container">
-    <c:import url="/WEB-INF/views/includes/header.jsp"/>
+    <th:block th:replace="common/header::header"></th:block>
     <div id="content">
         <div id="user">
-            <form action="${path}/user/auth" id="login-form" method="post" name="loginform">
+            <form id="login-form" method="post" name="loginform" th:action="@{/user/auth}">
                 <label class="block-label" for="email">이메일</label>
-                <input id="email" name="email" type="text"
-                       value="${email}">
+                <input id="email" name="email" th:value="${email}"
+                       type="text">
                 <label class="block-label">패스워드</label>
                 <input name="password" type="password" value="">
-                <c:if test="${'fail'.equals(result)}">
-                    <p>
-                        로그인이 실패 했습니다.
-                    </p>
-                </c:if>
+                <p th:if="${result != null && result == 'fail'}">
+                    로그인이 실패 했습니다.
+                </p>
                 <input type="submit" value="로그인">
             </form>
         </div>
     </div>
-    <c:import url="/WEB-INF/views/includes/navigation.jsp"/>
-    <c:import url="/WEB-INF/views/includes/footer.jsp"/>
+    <th:block th:replace="common/navigation::navigation"/>
+    <th:block th:replace="common/footer::footer"/>
 </div>
 </body>
 </html>

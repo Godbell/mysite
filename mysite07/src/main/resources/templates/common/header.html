@@ -50,9 +50,8 @@
                     <a th:href="@{/user/logout}"
                        th:text="${#messages.msg('header.gnb.logout')}"></a>
                 </li>
-                <li th:text="${
-                    #messages.msg('header.gnb.greeting')}">
-                </li>
+                <!-- #messages.msg('header.gnb.greeting')}"> -->
+                <li th:text="${#authentication.name}"></li>
             </div>
         </ul>
     </div>

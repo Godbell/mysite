@@ -3,7 +3,7 @@
     <title th:case="${true}" th:text="${@siteMetadata.title}">
     </title>
     <title th:if="${false}">
-        ${not empty param.title ? param.title : metadata.title}
+        title
     </title>
     <meta content="text/html; charset=utf-8" http-equiv="content-type">
     <link rel="stylesheet" th:href="@{/assets/css/__${stylesheetPath}__.css}" type="text/css">
