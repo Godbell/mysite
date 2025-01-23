@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'main', title = null)"></th:block>
+<body>
+<div id="container">
+    <th:block th:replace="common/header::header"></th:block>
+
+    <div id="wrapper">
+        <div id="content">
+            <div id="site-introduction">
+                <img id="profile" style="width: 100%;" th:src="@{__${siteVo.profile}__}">
+                <h2 style="width: 100%" th:text="${siteVo.welcome}"></h2>
+                <p>
+                    <th:block th:utext="${
+                        #strings.replace(
+                            siteVo.description,
+                            lineSeparator,
+                            '&lt;br&gt;'
+                        )
+                    }">
+                    </th:block>
+                    <br><br><a th:href="@{/guestBook}">방명록</a>에 글 남기기<br>
+                </p>
+            </div>
+        </div>
+    </div>
+    <th:block th:replace="common/navigation::navigation"/>
+    <th:block th:replace="common/footer::footer"/>
+</div>
+</body>
+</html>

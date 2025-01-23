@@ -1,0 +1,15 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<div id="navigation" th:fragment="navigation">
+    <ul>
+        <li>
+            <a th:href="@{/}" th:text="${#messages.msg('navigation.li.main')}"></a>
+        </li>
+        <li>
+            <a th:href="@{/guestbook}" th:text="${#messages.msg('navigation.li.guestbook')}"></a>
+        </li>
+        <li>
+            <a th:href="@{/board}" th:text="${#messages.msg('navigation.li.board')}"></a>
+        </li>
+    </ul>
+</div>
+</html>

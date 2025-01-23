@@ -1,0 +1,60 @@
+<html lang="ko"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<th:block th:fragment="header">
+    <script th:inline="javascript">
+        window.addEventListener('load', function () {
+            anchors = document.querySelectorAll('#languages a');
+            anchors.forEach(function (el) {
+                el.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    document.cookie =
+                        'lang=' + this.getAttribute('data-lang') + ';' +
+                        `path=` +
+                        [[@{/}]]
+                        + ';'
+                        + 'max-age=' + (30 * 24 * 60 * 60);
+
+                    location.reload();
+                });
+            });
+        });
+    </script>
+    <div id="header">
+        <h1 th:text="${@siteMetadata.title}"></h1>
+        <div id="languages" th:switch="${#locale.equals(#locale.KOREAN)}">
+            <th:block th:case="false">
+                <a data-lang="ko" href="">KR</a>
+                <a class="active" data-lang="en" href="">EN</a>
+            </th:block>
+            <th:block th:case="true">
+                <a class="active" data-lang="ko" href="">KR</a>
+                <a data-lang="en" href="">EN</a>
+            </th:block>
+        </div>
+        <ul>
+            <div sec:authorize="isAnonymous()">
+                <li>
+                    <a th:href="@{/user/login}" th:text="${#messages.msg('header.gnb.login')}"></a>
+                </li>
+                <li>
+                    <a th:href="@{/user/join}" th:text="${#messages.msg('header.gnb.join')}"></a>
+                </li>
+            </div>
+            <div sec:authorize="isAuthenticated()">
+                <li>
+                    <a th:href="@{/user/update}"
+                       th:text="${#messages.msg('header.gnb.settings')}"></a>
+                </li>
+                <li>
+                    <a th:href="@{/user/logout}"
+                       th:text="${#messages.msg('header.gnb.logout')}"></a>
+                </li>
+                <li th:text="${
+                    #messages.msg('header.gnb.greeting')}">
+                </li>
+            </div>
+        </ul>
+    </div>
+</th:block>
+</html>

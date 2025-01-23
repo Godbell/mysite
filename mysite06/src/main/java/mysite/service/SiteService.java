@@ -14,7 +14,7 @@ import mysite.vo.SiteMetadata;
 import mysite.vo.SiteVo;
 
 @Service
-@PropertySource("classpath:/mysite/config/web/fileupload.properties")
+@PropertySource("classpath:mysite/config/web/fileupload.properties")
 public class SiteService {
     private final SiteRepository siteRepository;
     private final FileManager fileManager;

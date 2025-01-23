@@ -11,7 +11,7 @@ import mysite.vo.UserVo;
 public class UserDetailsImpl extends UserVo implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority("ROLE_" + getRole()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + getName()));
     }
 
     @Override
