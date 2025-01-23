@@ -20,7 +20,6 @@ public class MainController {
     public String index(Model model, HttpServletRequest request) {
         SiteVo siteVo = siteService.getSiteFullInfo();
         model.addAttribute("siteVo", siteVo);
-        model.addAttribute("lineSeparator", System.lineSeparator());
 
         return "main/index";
     }
