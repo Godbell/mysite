@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Exception Handler: Spring Controller</title>
+</head>
+<body>
+An error occured:<br>
+<th:block th:text="${#requestdatavalues.extraHiddenFields().get('errors')}"></th:block>
+</body>
+</html>

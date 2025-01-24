@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
-<th:block th:replace="common/head::head(stylesheetPath = 'main', title = null)"></th:block>
+<th:block th:replace="common/head::head(stylesheetPath = 'user', title = null)"></th:block>
 <body>
 <div id="container">
     <th:block th:replace="common/header::header"></th:block>
@@ -8,18 +8,28 @@
         <div id="user">
             <form id="update-form" method="post" name="updateForm" th:action="@{/user/update}">
                 <label class="block-label" for="name">이름</label>
-                <input id="name" name="name" type="text">
+                <input id="name" name="name" th:value="${user.name}" type="text">
 
                 <label class="block-label" for="email">이메일</label>
-                <h4 id="email"></h4>
+                <h4 id="email" th:text="${user.email}"></h4>
 
                 <label class="block-label">패스워드</label>
                 <input name="password" type="password">
 
                 <fieldset>
                     <legend>성별</legend>
-                    <label>여</label> <input id="gender-female" name="gender" type="radio" value="female">
-                    <label>남</label> <input id="gender-male" name="gender" type="radio" value="male">
+                    <label for="gender-female">여</label>
+                    <input id="gender-female"
+                           name="gender"
+                           th:checked="${user.gender == 'female' ? 'checked' : ''}"
+                           type="radio"
+                           value="female">
+                    <label for="gender-male">남</label>
+                    <input id="gender-male"
+                           name="gender"
+                           th:checked="${user.gender == 'male' ? 'checked' : ''}"
+                           type="radio"
+                           value="male">
                 </fieldset>
 
                 <input type="submit" value="수정하기">
@@ -30,9 +40,4 @@
     <th:block th:replace="common/footer::footer"/>
 </div>
 </body>
-<script th:inline="javascript">
-    document.getElementById("email").innerHTML = "${authUser.email}"
-    document.getElementById("gender-${authUser.gender}").checked = "checked";
-    document.getElementById("name").value = "${authUser.name}";
-</script>
 </html>

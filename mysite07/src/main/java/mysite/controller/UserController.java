@@ -50,7 +50,10 @@ public class UserController {
     }
 
     @RequestMapping(value = "/update", method = RequestMethod.GET)
-    public String update() {
+    public String update(Authentication authentication, Model model) {
+        UserVo user = (UserVo)authentication.getPrincipal();
+        model.addAttribute("user", user);
+
         return "user/update";
     }
 
@@ -65,7 +68,7 @@ public class UserController {
         user.setGender(vo.getGender());
 
         model.addAttribute("user", user);
-        return "user/update";
+        return "redirect:/user/update";
     }
 
     @RequestMapping("/auth")

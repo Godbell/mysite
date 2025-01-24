@@ -8,7 +8,7 @@
     </insert>
 
     <select id="findByEmailAndPassword" parameterType="map" resultType="user">
-        SELECT id, name, email, gender, join_date, role
+        SELECT id, name, email, gender, join_date AS "joinDate", role
         FROM user
         WHERE email = #{email}
           AND password = #{password}
@@ -23,7 +23,7 @@
     </update>
 
     <select id="findById" parameterType="long" resultType="user">
-        SELECT id, name, gender, role, join_date
+        SELECT id, name, gender, role, password, join_date AS "joinDate"
         FROM user
         WHERE id = #{id}
     </select>
@@ -40,7 +40,7 @@
                password,
                email,
                gender,
-               join_date,
+               join_date AS "joinDate",
                role
         FROM user
         WHERE email = #{email};

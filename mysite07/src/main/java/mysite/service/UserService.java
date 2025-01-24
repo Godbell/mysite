@@ -19,17 +19,8 @@ public class UserService {
         userRepository.insert(vo);
     }
 
-    // deprecated
-    public UserVo getUserByEmail(String email, String password) {
-        return userRepository.findByEmailAndPassword(email, password);
-    }
-
-    public UserVo getUserByEmail(Long id) {
-        return userRepository.findById(id);
-    }
-
     public void update(UserVo vo) {
-        if (vo.getPassword() != null) {
+        if (vo.getPassword() != null && !vo.getPassword().isBlank()) {
             vo.setPassword(passwordEncoder.encode(vo.getPassword()));
         }
 

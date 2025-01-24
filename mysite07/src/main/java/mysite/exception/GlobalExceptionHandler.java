@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import mysite.dto.JsonResult;
@@ -23,7 +24,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(Exception.class)
     public void handler(
         HttpServletRequest req, HttpServletResponse res, Exception e
-    ) throws IOException {
+    ) throws IOException, ServletException {
         StringWriter stringWriter = new StringWriter();
         e.printStackTrace(new PrintWriter(stringWriter));
         log.error(stringWriter);
@@ -42,7 +43,9 @@ public class GlobalExceptionHandler {
             outputStream.close();
         } else {
             req.setAttribute("errors", stringWriter.toString());
-            req.getRequestDispatcher("WEB-INF/views/errors/exception.jsp");
+            req.getRequestDispatcher("/error/" + res.getStatus()).forward(
+                req, res
+            );
         }
     }
 }
