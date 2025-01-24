@@ -39,7 +39,7 @@ public class BoardController {
         if (authentication != null && authentication.isAuthenticated()) {
             model.addAttribute(
                 "user",
-                userService.findByEmail(authentication.getName())
+                userService.getUserByEmail(authentication.getName())
             );
         } else {
             model.addAttribute(
@@ -60,16 +60,20 @@ public class BoardController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String createPost(Authentication authentication, PostVo vo) {
+    public String createPost(
+        Authentication authentication, PostVo vo
+    ) {
         UserVo authUser = (UserVo)authentication.getPrincipal();
         vo.setUserId(authUser.getId());
+
         Long uploadedPostId = boardService.addPost(vo);
 
         return "redirect:/board/" + uploadedPostId;
     }
 
     @RequestMapping(value = "/{postId}", method = RequestMethod.GET)
-    public String viewPost(@PathVariable("postId") Long postId, Model model) {
+    public String viewPost(@PathVariable("postId") Long postId, Model model,
+        Authentication authentication) {
         PostVo vo = boardService.getPost(postId);
 
         if (vo == null) {
@@ -78,6 +82,16 @@ public class BoardController {
 
         boardService.increasePostHit(postId);
         model.addAttribute("post", vo);
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            model.addAttribute(
+                "user", userService.getUserByEmail(authentication.getName())
+            );
+        } else {
+            model.addAttribute(
+                "user", null
+            );
+        }
         return "board/view";
     }
 

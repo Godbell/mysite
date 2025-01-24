@@ -15,7 +15,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String email) {
-        UserVo userVo = userService.findByEmail(email);
+        UserVo userVo = userService.getUserByEmail(email);
 
         return new ObjectMapper().convertValue(userVo, UserDetailsImpl.class);
     }

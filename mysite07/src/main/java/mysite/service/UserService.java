@@ -20,11 +20,11 @@ public class UserService {
     }
 
     // deprecated
-    public UserVo getUser(String email, String password) {
+    public UserVo getUserByEmail(String email, String password) {
         return userRepository.findByEmailAndPassword(email, password);
     }
 
-    public UserVo getUser(Long id) {
+    public UserVo getUserByEmail(Long id) {
         return userRepository.findById(id);
     }
 
@@ -50,7 +50,7 @@ public class UserService {
         session.setAttribute("authUser", user);
     }
 
-    public UserVo findByEmail(String email) {
+    public UserVo getUserByEmail(String email) {
         return userRepository.findByEmail(email);
     }
 }
