@@ -3,24 +3,34 @@
 
 <mapper namespace="board">
     <select id="findAll" parameterType="map" resultType="post">
-        SELECT board.id AS "id",
+        WITH b AS (SELECT board.id AS "id",
+                          title,
+                          hit,
+                          g_no,
+                          depth,
+                          user_id,
+                          DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s')
+                                   AS reg_date_formatted,
+                          name     AS "username",
+                          o_no,
+                          (SELECT COUNT(*) FROM board)
+                              - (ROW_NUMBER() over (ORDER BY board.g_no DESC, board.o_no) - 1)
+                                   AS board_index
+                   FROM board
+                            LEFT JOIN webdb.user u ON board.user_id = u.id
+                   ORDER BY g_no DESC, o_no)
+        SELECT id,
                title,
                hit,
-               g_no     AS "groupNo",
-               o_no     AS "orderNo",
                depth,
-               user_id  AS "userId",
-               DATE_FORMAT(board.reg_date, '%Y-%m-%d %h:%i:%s')
-                        AS "regDate",
-               name     AS "username",
-               (SELECT COUNT(*) FROM board)
-                   - (ROW_NUMBER() over (ORDER BY board.g_no DESC, board.o_no) - 1)
-                        AS "index"
-        FROM board
-                 LEFT JOIN webdb.user u ON board.user_id = u.id
+               reg_date_formatted AS "regDate",
+               user_id            AS "userId",
+               username,
+               board_index        AS "index"
+        FROM b
         WHERE title LIKE #{query}
         ORDER BY g_no DESC, o_no
-        LIMIT #{offset}, #{limit};
+            LIMIT #{offset}, #{limit};
     </select>
 
     <select id="totalCount" resultType="integer" parameterType="string">

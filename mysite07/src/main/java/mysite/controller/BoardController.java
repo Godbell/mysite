@@ -41,13 +41,21 @@ public class BoardController {
                 "user",
                 userService.findByEmail(authentication.getName())
             );
+        } else {
+            model.addAttribute(
+                "user", null
+            );
         }
 
         return "board/list";
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.GET)
-    public String viewCreatePost() {
+    public String viewCreatePost(
+        Model model,
+        @RequestParam(value = "parentPostId", required = false) Long parentPostId
+    ) {
+        model.addAttribute("parentPostId", parentPostId);
         return "board/write";
     }
 
