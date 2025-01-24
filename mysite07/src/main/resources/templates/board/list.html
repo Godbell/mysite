@@ -34,7 +34,7 @@
                     <td>
                         <a sec:authorize="isAuthenticated()"
                            class="del"
-                           th:if="${user.id == post.userId}">삭제</a>
+                           th:if="${user != null && user.id == post.userId}">삭제</a>
                     </td>
                 </tr>
             </table>
@@ -44,7 +44,7 @@
 
             <div class="bottom">
                 <div sec:authorize="isAuthenticated()">
-                    <a href="${path}/board/add" id="new-book">글쓰기</a>
+                    <a th:href="@{/board/add}" id="new-book">글쓰기</a>
                 </div>
             </div>
         </div>
