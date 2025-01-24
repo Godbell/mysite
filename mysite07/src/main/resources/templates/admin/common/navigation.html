@@ -1,0 +1,19 @@
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'board', title = null)"></th:block>
+<div id="navigation" th:fragment="navigation(menu)">
+    <ul th:switch="${menu}">
+        <li th:class="${menu == 'main' ? 'selected' : ''}">
+            <a th:href="@{/admin/}">메인페이지 관리</a>
+        </li>
+        <li th:class="${menu == 'guestbook' ? 'selected' : ''}">
+            <a th:href="@{/admin/guestbook}">방명록 관리</a>
+        </li>
+        <li th:class="${menu == 'board' ? 'selected' : ''}">
+            <a th:href="@{/admin/board}">게시판 관리</a>
+        </li>
+        <li th:class="${menu == 'user' ? 'selected' : ''}">
+            <a th:href="@{/admin/user}">사용자 관리</a>
+        </li>
+    </ul>
+</div>
+<div id="footer">&nbsp;</div>

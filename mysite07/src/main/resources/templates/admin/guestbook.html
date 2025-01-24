@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'admin/admin', title = null)"></th:block>
+<body>
+<div id="container">
+    <th:block th:replace="admin/common/header::header"/>
+    <div id="wrapper">
+        <div id="content">
+            <div id="site-form">
+                <h2>방명록 관리 페이지</h2>
+            </div>
+        </div>
+        <th:block th:replace="admin/common/navigation::navigation(menu = 'guestbook')"/>
+    </div>
+</div>
+</body>
+</html>

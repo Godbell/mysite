@@ -53,7 +53,7 @@ public class SecurityConfig {
                     .logoutUrl("/user/logout")
                     .logoutSuccessUrl("/")
             )
-            .authorizeHttpRequests(authorizeRequests -> {
+            .authorizeHttpRequests(authorizeRequests ->
                 /* ACL */
                 authorizeRequests
                     .requestMatchers(new RegexRequestMatcher("^/admin/?.*$", null))
@@ -67,13 +67,15 @@ public class SecurityConfig {
                     .hasAnyRole("ADMIN", "USER")
 
                     .anyRequest()
-                    .permitAll();
-            })
+                    .permitAll()
+            )
             .exceptionHandling(exceptionHandling -> {
                 // exceptionHandling.accessDeniedPage("/WEB-INF/views/errors/403.jsp");
                 exceptionHandling.accessDeniedHandler(
-                    (request, response, accessDeniedException) ->
-                        response.sendRedirect(request.getContextPath())
+                    (request, response, accessDeniedException) -> {
+                        response.sendRedirect(request.getContextPath());
+                        System.out.println(accessDeniedException.getMessage());
+                    }
                 );
             });
 
