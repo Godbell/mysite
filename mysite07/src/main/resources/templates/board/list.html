@@ -34,7 +34,9 @@
                     <td>
                         <a sec:authorize="isAuthenticated()"
                            class="del"
-                           th:if="${user != null && user.id == post.userId}">삭제</a>
+                           th:style="|background: url(@{/assets/img/recycle.png}) no-repeat 0 0;|"
+                           th:if="${user != null && user.id == post.userId}"
+                           th:href="@{/board/delete/__${post.id}__}">삭제</a>
                     </td>
                 </tr>
             </table>
