@@ -1,25 +1,15 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<c:set var="path" value="${pageContext.servletContext.contextPath}"/>
-
-<jsp:useBean id="post" scope="request" type="mysite.vo.PostVo"/>
-
 <!DOCTYPE html>
-<html lang="ko">
-<c:import url="/WEB-INF/views/includes/head.jsp">
-    <c:param name="stylesheetPath" value="board"/>
-    <c:param name="title" value="글 수정하기"/>
-</c:import>
+<html lang="ko"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'board', title = null)"></th:block>
 <body>
 <div id="container">
-    <c:import url="/WEB-INF/views/includes/header.jsp"/>
+    <th:block th:replace="common/header::header"/>
     <div id="content">
         <div id="board">
-            <form class="board-form" method="post" action="${path}/board/update">
-                <input type="hidden" name="id" value="${post.id}">
+            <form class="board-form" method="post" th:action="@{/board/update}">
+                <input type="hidden" name="id" th:value="${post.id}">
                 <table class="tbl-ex">
                     <tr>
                         <th colspan="2">글수정</th>
@@ -27,36 +17,28 @@
                     <tr>
                         <td class="label">제목</td>
                         <td>
-                            <input type="text" name="title" value="${post.title}">
+                            <input type="text" name="title" th:value="${post.title}">
                         </td>
                     </tr>
                     <tr>
                         <td class="label">내용</td>
                         <td>
-                            <textarea id="content" name="contents">${post.contents}</textarea>
+                            <textarea id="content" name="contents"
+                                      style="white-space: pre-line"
+                                      th:text="${post.contents}"></textarea>
                         </td>
                     </tr>
                 </table>
                 <div class="bottom">
-                    <a href="${path}/board/${post.id}">취소</a>
+                    <a th:href="@{/board/__${post.id}__}">취소</a>
                     <input type="submit" value="수정">
                 </div>
             </form>
         </div>
     </div>
-    <c:import url="/WEB-INF/views/includes/navigation.jsp">
-        <c:param name="menu" value="board"/>
-    </c:import>
-    <c:import url="/WEB-INF/views/includes/footer.jsp"/>
+    <th:block th:replace="common/navigation::navigation"/>
+    <th:block th:replace="common/footer::footer"/>
 </div>
 </body>
-<script>
-    const post = {
-        title: `${fn:replace(post.title, "`", "\\`")}`,
-        contents: `${fn:replace(post.contents, "`", "\\`")}`
-    }
-
-    document.getElementsByName("title")[0].value = post.title;
-    document.getElementsByName("contents")[0].textContent = post.contents;
 </script>
 </html>
