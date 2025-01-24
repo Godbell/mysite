@@ -49,4 +49,8 @@ public class UserService {
 
         session.setAttribute("authUser", user);
     }
+
+    public UserVo findByEmail(String email) {
+        return userRepository.findByEmail(email);
+    }
 }

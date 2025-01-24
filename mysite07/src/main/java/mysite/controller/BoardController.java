@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.AllArgsConstructor;
 import mysite.service.BoardService;
+import mysite.service.UserService;
 import mysite.vo.BoardVo;
 import mysite.vo.PostVo;
 import mysite.vo.UserVo;
@@ -19,12 +20,14 @@ import mysite.vo.UserVo;
 @Controller
 public class BoardController {
     private final BoardService boardService;
+    private final UserService userService;
 
     @RequestMapping(value = {"", "/"}, method = RequestMethod.GET)
     public String getBoard(
         @RequestParam(value = "page", required = false) Integer page,
         @RequestParam(value = "q", required = false) String q,
-        Model model
+        Model model,
+        Authentication authentication
     ) {
         BoardVo boardVo = boardService.getBoard(page, q);
         model.addAttribute("list", boardVo.getPosts());
@@ -32,6 +35,13 @@ public class BoardController {
         model.addAttribute("totalCount", boardVo.getTotalCount());
         model.addAttribute("currentPage", boardVo.getCurrentPage());
         model.addAttribute("q", q);
+
+        if (authentication != null && authentication.isAuthenticated()) {
+            model.addAttribute(
+                "user",
+                userService.findByEmail(authentication.getName())
+            );
+        }
 
         return "board/list";
     }

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="common/head::head(stylesheetPath = 'board', title = null)"></th:block>
+<body>
+<div id="container">
+    <th:block th:replace="common/header::header"/>
+    <div id="content">
+        <div id="board">
+            <form id="search_form" method="get" th:action="@{/board}">
+                <input id="kwd" name="q" type="text" value="">
+                <input type="submit" value="찾기">
+            </form>
+            <table class="tbl-ex" id="board_list">
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>글쓴이</th>
+                    <th>조회수</th>
+                    <th>작성일</th>
+                    <th>&nbsp;</th>
+                </tr>
+                <tr th:each="post : ${list}">
+                    <td th:text="${post.index}"></td>
+                    <td class="title-area">
+                        <a th:href="@{/board/__${post.id}__}" th:text="${
+                            #strings.repeat('⎿', post.depth) + ' ' + post.title
+                        }"></a>
+                    </td>
+                    <td th:text="${post.username}"></td>
+                    <td th:text="${post.hit}"></td>
+                    <td th:text="${post.regDate}"></td>
+                    <td>
+                        <a sec:authorize="isAuthenticated()"
+                           class="del"
+                           th:if="${user.id == post.userId}">삭제</a>
+                    </td>
+                </tr>
+            </table>
+
+            <div class="pager">
+            </div>
+
+            <div class="bottom">
+                <div sec:authorize="isAuthenticated()">
+                    <a href="${path}/board/add" id="new-book">글쓰기</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <th:block th:replace="common/navigation::navigation"/>
+    <th:block th:replace="common/footer::footer"/>
+</div>
+</body>
+<script th:inline="javascript">
+    const boardData = {
+        totalCount: [[${totalCount}]],
+        postsCountPerPage: [[${postsCountPerPage}]],
+        currentPage: [[${currentPage}]],
+        pageHrefsCountPerPage: 5,
+        q: [[${q}]],
+        path: [[@{/}]],
+    };
+
+    const renderPager = () => {
+        const pagerContainer = document.getElementsByClassName('pager')[0];
+        const pager = document.createElement('ul');
+        pagerContainer.appendChild(pager);
+
+        const lastPageButtonContainer = document.createElement('li');
+        const lastPageButton = document.createElement('a');
+        lastPageButton.textContent = '◀';
+        lastPageButton.href = boardData.currentPage > 1
+            ? `${boardData.path}board?page=${boardData.currentPage - 1}${boardData.q == null ? "" : "&q=".concat(boardData.q)}`
+            : '';
+        lastPageButtonContainer.appendChild(lastPageButton);
+        pager.appendChild(lastPageButtonContainer);
+
+        const maxPage = Math.ceil(boardData.totalCount / boardData.postsCountPerPage)
+        let startIndex = 1;
+        let endIndex = 5;
+
+        if (boardData.currentPage <= Math.ceil(boardData.pageHrefsCountPerPage / 2)) {
+            startIndex = 1;
+            endIndex = boardData.pageHrefsCountPerPage;
+        } else if (
+            boardData.currentPage > maxPage - Math.ceil(boardData.pageHrefsCountPerPage / 2)
+        ) {
+            startIndex = maxPage - boardData.pageHrefsCountPerPage + 1;
+            startIndex = startIndex > 0 ? startIndex : 1;
+            endIndex = maxPage < boardData.pageHrefsCountPerPage ? 5 : maxPage;
+        } else {
+            startIndex = boardData.currentPage - 2;
+            endIndex = boardData.currentPage + 2;
+        }
+
+        for (let page = startIndex; page <= endIndex; ++page) {
+            const pageHrefContainer = document.createElement('li');
+            pageHrefContainer.className = page === boardData.currentPage ? 'selected' : '';
+
+            if (page <= maxPage) {
+                const pageHref = document.createElement('a');
+                pageHref.href =
+                    `${boardData.path}board?page=${page}${boardData.q === null ? '' : '&q='.concat(boardData.q)}`;
+                pageHref.textContent = `${page}`
+                pageHrefContainer.appendChild(pageHref);
+            } else {
+                pageHrefContainer.textContent = `${page}`;
+            }
+
+            pager.appendChild(pageHrefContainer);
+        }
+
+        const nextPageButtonContainer = document.createElement('li');
+        const nextPageButton = document.createElement('a');
+        nextPageButton.textContent = '▶';
+        nextPageButton.href = boardData.currentPage < maxPage
+            ? `${boardData.path}board?page=${boardData.currentPage + 1}${boardData.q === null ? "" : "&q=".concat(boardData.q)}`
+            : '';
+        nextPageButtonContainer.appendChild(nextPageButton);
+        pager.appendChild(nextPageButtonContainer);
+    }
+</script>
+<script>
+    renderPager();
+</script>
+</html>

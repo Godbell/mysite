@@ -17,18 +17,12 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
-import mysite.repository.UserRepository;
 import mysite.security.UserDetailsServiceImpl;
+import mysite.service.UserService;
 
 @SpringBootConfiguration
 @EnableWebSecurity
 public class SecurityConfig {
-    private final UserRepository userRepository;
-
-    public SecurityConfig(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
-
     @Bean
     public WebSecurityCustomizer webSecurityCustomizer() {
         return webSecurity -> webSecurity.httpFirewall(new DefaultHttpFirewall());
@@ -87,16 +81,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager() {
+    public AuthenticationManager authenticationManager(UserService userService) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService());
+        authenticationProvider.setUserDetailsService(userDetailsService(userService));
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authenticationProvider);
     }
 
     @Bean
-    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter() {
-        return new UsernamePasswordAuthenticationFilter(authenticationManager());
+    public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter(
+        UserService userService
+    ) {
+        return new UsernamePasswordAuthenticationFilter(authenticationManager(userService));
     }
 
     @Bean
@@ -105,7 +101,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService() {
-        return new UserDetailsServiceImpl(userRepository);
+    public UserDetailsService userDetailsService(UserService userService) {
+        return new UserDetailsServiceImpl(userService);
     }
 }
