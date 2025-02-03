@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Arrays;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -21,7 +22,7 @@ import mysite.dto.JsonResult;
 public class GlobalExceptionHandler {
     private static final Log log = LogFactory.getLog(GlobalExceptionHandler.class);
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(exception = {Exception.class})
     public void handler(
         HttpServletRequest req, HttpServletResponse res, Exception e
     ) throws IOException, ServletException {
@@ -43,9 +44,12 @@ public class GlobalExceptionHandler {
             outputStream.close();
         } else {
             req.setAttribute("errors", stringWriter.toString());
-            req.getRequestDispatcher("/error/" + res.getStatus()).forward(
-                req, res
-            );
+
+            if (Arrays.stream(new int[] {400, 404, 500}).anyMatch((val) -> val == res.getStatus())) {
+                req.getRequestDispatcher("/error/" + res.getStatus()).forward(req, res);
+            } else {
+                req.getRequestDispatcher("/error").forward(req, res);
+            }
         }
     }
 }

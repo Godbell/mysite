@@ -17,8 +17,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.security.web.firewall.DefaultHttpFirewall;
 import org.springframework.security.web.util.matcher.RegexRequestMatcher;
 
+import mysite.repository.UserRepository;
 import mysite.security.UserDetailsServiceImpl;
-import mysite.service.UserService;
 
 @SpringBootConfiguration
 @EnableWebSecurity
@@ -83,18 +83,18 @@ public class SecurityConfig {
     }
 
     @Bean
-    public AuthenticationManager authenticationManager(UserService userService) {
+    public AuthenticationManager authenticationManager(UserRepository userRepository) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
-        authenticationProvider.setUserDetailsService(userDetailsService(userService));
+        authenticationProvider.setUserDetailsService(userDetailsService(userRepository));
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return new ProviderManager(authenticationProvider);
     }
 
     @Bean
     public UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter(
-        UserService userService
+        UserRepository userRepository
     ) {
-        return new UsernamePasswordAuthenticationFilter(authenticationManager(userService));
+        return new UsernamePasswordAuthenticationFilter(authenticationManager(userRepository));
     }
 
     @Bean
@@ -103,7 +103,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserService userService) {
-        return new UserDetailsServiceImpl(userService);
+    public UserDetailsService userDetailsService(UserRepository userRepository) {
+        return new UserDetailsServiceImpl(userRepository);
     }
 }

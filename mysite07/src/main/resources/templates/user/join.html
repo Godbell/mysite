@@ -4,6 +4,11 @@
 <script crossorigin="anonymous"
         integrity="sha256-TXsBwvYEO87oOjPQ9ifcb7wn3IrrW91dhj6EMEtRLvM="
         src="https://code.jquery.com/jquery-1.9.0.js"></script>
+<style>
+    span {
+        color: #FF0000;
+    }
+</style>
 <body>
 <div id="container">
     <th:block th:replace="common/header::header"></th:block>
@@ -13,37 +18,52 @@
                   method="post"
                   name="joinForm"
                   onsubmit="onSubmit()"
+                  th:object="${user}"
                   th:action="@{/user/join}">
                 <label class="block-label" for="name" th:text="${#messages.msg('user.join.label.name')}"></label>
-                <input id="name" name="name"/>
-                <br>
+                <input id="name" name="name" th:field="*{name}"/><br>
+                <span th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
 
                 <label class="block-label" for="email" th:text="${#messages.msg('user.join.label.email')}"></label>
-                <input id="email" name="email"/>
+                <input id="email" name="email" th:field="*{email}"/>
                 <input id="btn-check"
                        th:value="${#messages.msg('user.join.label.email.check')}"
                        type="button"/>
                 <img height="24px" id="icon-check" style="display: none;" th:src="@{/assets/img/check.png}"
-                     width="24px"/>
+                     width="24px"/><br>
+                <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 <br>
 
                 <label class="block-label" th:text="${#messages.msg('user.join.label.password')}"></label>
-                <input id="password" name="password"/>
+                <input type="password" id="password" name="password"/><br>
+                <span th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></span>
                 <br>
 
                 <fieldset>
-                    <legend th:text="${#messages.msg('user.join.label.gender')}">/></legend>
+                    <legend th:text="${#messages.msg('user.join.label.gender')}"></legend>
                     <label th:text="${#messages.msg('user.join.label.gender.female')}"></label>
-                    <input checked="checked" name="gender" type="radio" value="female"/>
+                    <input checked="checked"
+                           name="gender"
+                           type="radio"
+                           value="female"
+                           th:field="*{gender}"/>
                     <label th:text="${#messages.msg('user.join.label.gender.male')}"></label>
-                    <input name="gender" type="radio" value="male"/>
+                    <input name="gender"
+                           type="radio"
+                           th:field="*{gender}"
+                           value="male"/>
                 </fieldset>
+                <span th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></span>
 
                 <fieldset>
                     <legend th:text="${#messages.msg('user.join.label.terms')}"></legend>
-                    <input id="agree-prov" name="agreeProv" type="checkbox"/>
+                    <input id="agree-prov"
+                           name="agreeProv"
+                           type="checkbox"
+                           th:field="*{agreeProv}"/>
                     <label th:text="${#messages.msg('user.join.label.terms.message')}"></label>
                 </fieldset>
+                <span th:if="${#fields.hasErrors('agreeProv')}" th:errors="*{agreeProv}"></span>
 
                 <input th:value="${#messages.msg('user.join.button.signup')}" type="submit">
             </form>

@@ -28,10 +28,6 @@ public class UserRepository {
     }
 
     public void update(UserVo vo) {
-        if (vo.getPassword().isEmpty()) {
-            vo.setPassword(null);
-        }
-
         sqlSession.update("user.update", vo);
     }
 
